@@ -96,6 +96,8 @@ let _options = {
         decreaseText: 'decrease text size',
         increaseTextSpacing: 'increase text spacing',
         decreaseTextSpacing: 'decrease text spacing',
+        increaseLineHeight: 'increase line height',
+        decreaseLineHeight: 'decrease line height',
         invertColors: 'invert colors',
         grayHues: 'gray hues',
         bigCursor: 'big cursor',
@@ -146,11 +148,13 @@ export class Accessibility {
         this.sessionState = {
             textSize: 0,
             textSpace: 0,
+            lineHeight: 0,
             invertColors: false,
             grayHues: false,
             underlineLinks: false,
             bigCursor: false,
-            readingGuide: false
+            readingGuide: false,
+            position: 'right',
         };
         if (this.options.icon.useEmojis) {
             this.fontFallback();
@@ -404,6 +408,11 @@ export class Accessibility {
             letter-spacing: initial!important;
             word-spacing: initial!important;
         }
+
+        ._access-menu ul li.position {
+            display: inline-block;
+            width: auto;
+        }
         ._access-menu ul.before-collapse li {
             opacity: 0.05;
         }
@@ -634,6 +643,30 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
+                                'data-access-action': 'increaseLineHeight'
+                            },
+                            children: [
+                                {
+                                    type: '#text',
+                                    text: this.options.labels.increaseLineHeight
+                                }
+                            ]
+                        },
+                        {
+                            type: 'li',
+                            attrs: {
+                                'data-access-action': 'decreaseLineHeight'
+                            },
+                            children: [
+                                {
+                                    type: '#text',
+                                    text: this.options.labels.decreaseLineHeight
+                                }
+                            ]
+                        },
+                        {
+                            type: 'li',
+                            attrs: {
                                 'data-access-action': 'invertColors',
                                 'title': this.parseKeys(this.options.hotkeys.keys.invertColors)
                             },
@@ -725,9 +758,35 @@ export class Accessibility {
                                     text: this.options.labels.speechToText
                                 }
                             ]
+                        },
+                        {
+                            type: 'li',
+                            attrs: {
+                                'data-access-action': 'leftPosition',
+                                'class' : 'position',
+                            },
+                            children: [
+                                {
+                                    type: '#text',
+                                    text: "Left Position"
+                                }
+                            ]
+                        },
+                        {
+                            type: 'li',
+                            attrs: {
+                                'data-access-action': 'rightPosition',
+                                'class' : 'position',
+                            },
+                            children: [
+                                {
+                                    type: '#text',
+                                    text: "Right Position"
+                                }
+                            ]
                         }
                     ]
-                }
+                },
             ]
         });
 
@@ -787,6 +846,7 @@ export class Accessibility {
         this.menuInterface.readingGuide(true);
         this.resetTextSize();
         this.resetTextSpace();
+        this.resetLineHeight();
         // for (let i of document.querySelectorAll('._access-menu ul li.active')) {
         //     i.classList.remove('active');
         // }
@@ -825,6 +885,21 @@ export class Accessibility {
 
         this.sessionState.textSpace = 0;
         this.onChange(true);
+    }
+
+    resetLineHeight() {
+        this.resetIfDefined(this.initialValues.body.lineHeight, this.body.style, 'lineHeight');
+        let all = document.querySelectorAll('[data-init-line-height]')
+
+        for (let i = 0; i < all.length; i++) {
+            all[i].style.lineHeight = all[i].getAttribute('data-init-line-height');
+            all[i].removeAttribute('data-init-line-height');
+        }
+
+        this.sessionState.lineHeight = 0;
+        this.onChange(true);
+
+
     }
 
     alterTextSize(isIncrease) {
@@ -866,6 +941,76 @@ export class Accessibility {
         }
     }
 
+    alterLineHeight(isIncrease) {
+        this.sessionState.lineHeight += isIncrease ? 1 : -1;
+        this.onChange(true);
+        let factor = 2;
+        if (!isIncrease)
+            factor *= -1;
+
+        let all = document.querySelectorAll('*:not(._access)');
+        let exclude = Array.prototype.slice.call(document.querySelectorAll('._access-menu *'));
+        
+        for (let i = 0; i < all.length; i++) {
+            if (exclude.includes(all[i])) {
+                continue;
+            }
+            
+            if (this.options.textPixelMode) {
+                    let lHeight = getComputedStyle(all[i]).lineHeight;
+                    if (lHeight && (lHeight.indexOf('px') > -1)) {
+                        if (!all[i].getAttribute('data-init-line-height'))
+                            all[i].setAttribute('data-init-line-height', lHeight);
+                        lHeight = (lHeight.replace('px', '') * 1) + factor;
+                        all[i].style.lineHeight = lHeight + 'px';
+                    }
+            }
+            
+            else if (this.options.textEmlMode) {
+                let lTextSize = getComputedStyle(all[i]).fontSize;
+                let lHeight = getComputedStyle(all[i]).lineHeight;
+                let lHeight2 = (lHeight.replace('px', '') * 1);
+                let lTextSize2 = (lTextSize.replace('px', '') * 1)
+                let inPercent = (lHeight2*100)/lTextSize2;
+                // console.log(`lheight for text size ${lTextSize} is ${lHeight} which is ${inPercent} percent}`);
+                if (lHeight && (lHeight.indexOf('px') > -1)) {
+                    if (!all[i].getAttribute('data-init-line-height'))
+                        all[i].setAttribute('data-init-line-height', inPercent + '%');
+                    inPercent += factor;
+                    all[i].style.lineHeight = inPercent + '%';
+                }
+            }
+        }
+    }
+
+    alterPosition(shiftLeft) {
+        if(shiftLeft && this.options.icon.position.right) {
+            delete this.options.icon.position.right;
+            this.options.icon.position.left = {
+                size: 10, 
+                units: 'px' ,
+            }
+            this.build();
+            this.destroy();
+            
+            document.querySelector('._access-menu [data-access-action="leftPosition"]').classList.toggle('active');
+            // this.sessionState.position = 'right';
+        } else { 
+            if(this.options.icon.position.left && !shiftLeft) {
+                delete this.options.icon.position.left;
+                this.options.icon.position.right = {
+                    size: 10, 
+                    units: 'px' ,
+                }
+                this.build();
+                this.destroy();
+                
+                document.querySelector('._access-menu [data-access-action="rightPosition"]').classList.toggle('active');
+            }
+        }
+        console.log(this.options.textSize);
+        this.onChange(true);
+    }
     alterTextSpace(isIncrease) {
         this.sessionState.textSpace += isIncrease ? 1 : -1;
         this.onChange(true);
@@ -1127,6 +1272,19 @@ export class Accessibility {
             decreaseTextSpacing: () => {
                 this.alterTextSpace(false);
             },
+            increaseLineHeight: () => {
+                this.alterLineHeight(true);
+            },
+            decreaseLineHeight: () => {
+                this.alterLineHeight(false);
+            },
+            leftPosition: () => {
+                this.alterPosition(true);
+            },
+            rightPosition: () => {
+                this.alterPosition(false);
+            },
+
             invertColors: (destroy) => {
                 if (typeof this.initialValues.html.backgroundColor === 'undefined')
                     this.initialValues.html.backgroundColor = getComputedStyle(this.html).backgroundColor;
@@ -1413,6 +1571,7 @@ export class Accessibility {
 
     setSessionFromCache() {
         let sessionState = storage.get('_accessState');
+        console.log(sessionState);
         if (sessionState) {
             if (sessionState.textSize) {
                 let textSize = sessionState.textSize;
@@ -1440,6 +1599,24 @@ export class Accessibility {
                     }
                 }
             }
+            if (sessionState.lineHeight) {
+                let lineHeight = sessionState.lineHeight;
+                if (lineHeight > 0) {
+                    while (lineHeight--) {
+                        this.alterLineHeight(true);
+                    }
+                }
+                else {
+                    while (lineHeight--) {
+                        this.lineHeight(false);
+                    }
+                }
+            }
+            // if(this.sessionState.position == 'left'){
+            //     this.alterPosition(false);
+            // } else {
+            //     this.alterPosition(true);
+            // }
             if (sessionState.invertColors)
                 this.menuInterface.invertColors();
             if (sessionState.grayHues)
@@ -1450,6 +1627,7 @@ export class Accessibility {
                 this.menuInterface.bigCursor();
             if (sessionState.readingGuide)
                 this.menuInterface.readingGuide();
+
             this.sessionState = sessionState;
         }
     }
