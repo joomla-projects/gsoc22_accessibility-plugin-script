@@ -101,8 +101,8 @@ let _options = {
         bigCursor: 'big cursor',
         readingGuide: 'reading guide',
         underlineLinks: 'underline links',
-        textToSpeech: 'text to speech',
-        speechToText: 'speech to text'
+        screenReader: 'Screen Reader',
+        speechToText: 'speech to text',
     },
     textToSpeechLang: 'en-US',
     speechToTextLang: 'en-US',
@@ -122,7 +122,7 @@ let _options = {
         readingGuide: true,
         underlineLinks: true,
         textToSpeech: true,
-        speechToText: true
+        speechToText: true,
     },
     session: {
         persistent: true
@@ -383,6 +383,40 @@ export class Accessibility {
         html._access_cursor * {
             cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyOS4xODhweCIgaGVpZ2h0PSI0My42MjVweCIgdmlld0JveD0iMCAwIDI5LjE4OCA0My42MjUiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI5LjE4OCA0My42MjUiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iI0Q5REFEOSIgc3Ryb2tlLXdpZHRoPSIxLjE0MDYiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgcG9pbnRzPSIyLjgsNC41NDkgMjYuODQ3LDE5LjkwMiAxNi45NjQsMjIuNzAxIDI0LjIzOSwzNy43NDkgMTguMjc4LDQyLjAxNyA5Ljc0MSwzMC43MjQgMS4xMzgsMzUuODA5ICIvPjxnPjxnPjxnPjxwYXRoIGZpbGw9IiMyMTI2MjciIGQ9Ik0yOS4xNzUsMjEuMTU1YzAuMDcxLTAuNjEzLTAuMTY1LTEuMjUzLTAuNjM1LTEuNTczTDIuMTY1LDAuMjU4Yy0wLjQyNC0wLjMyLTAuOTg4LTAuMzQ2LTEuNDM1LTAuMDUzQzAuMjgyLDAuNDk3LDAsMS4wMywwLDEuNjE3djM0LjE3MWMwLDAuNjEzLDAuMzA2LDEuMTQ2LDAuNzc2LDEuNDM5YzAuNDcxLDAuMjY3LDEuMDU5LDAuMjEzLDEuNDgyLTAuMTZsNy40ODItNi4zNDRsNi44NDcsMTIuMTU1YzAuMjU5LDAuNDgsMC43MjksMC43NDYsMS4yLDAuNzQ2YzAuMjM1LDAsMC40OTQtMC4wOCwwLjcwNi0wLjIxM2w2Ljk4OC00LjU4NWMwLjMyOS0wLjIxMywwLjU2NS0wLjU4NiwwLjY1OS0xLjAxM2MwLjA5NC0wLjQyNiwwLjAyNC0wLjg4LTAuMTg4LTEuMjI2bC02LjM3Ni0xMS4zODJsOC42MTEtMi43NDVDMjguNzA1LDIyLjI3NCwyOS4xMDUsMjEuNzY4LDI5LjE3NSwyMS4xNTV6IE0xNi45NjQsMjIuNzAxYy0wLjQyNCwwLjEzMy0wLjc3NiwwLjUwNi0wLjk0MSwwLjk2Yy0wLjE2NSwwLjQ4LTAuMTE4LDEuMDEzLDAuMTE4LDEuNDM5bDYuNTg4LDExLjc4MWwtNC41NDEsMi45ODVsLTYuODk0LTEyLjMxNWMtMC4yMTItMC4zNzMtMC41NDEtMC42NC0wLjk0MS0wLjcyYy0wLjA5NC0wLjAyNy0wLjE2NS0wLjAyNy0wLjI1OS0wLjAyN2MtMC4zMDYsMC0wLjU4OCwwLjEwNy0wLjg0NywwLjMyTDIuOCwzMi41OVY0LjU0OWwyMS41OTksMTUuODA2TDE2Ljk2NCwyMi43MDF6Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==),auto!important;
         }
+        .texting {
+            height:50px;
+            text-align: center;
+            border: solid 2.4px #f1f0f1;
+            border-radius: 4px;
+            width: 100%;
+            display: inline-block;
+        }
+        .screen-reader-wrapper {
+            margin-top: 13px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .screen-reader-wrapper-step-1 {
+            float: left;
+            background: white;
+            width: 33%;
+            height: 3px;
+            border-radius: 10px;
+        }
+        .screen-reader-wrapper-step-2 {
+            float: left;
+            background: white;
+            width: 33%;
+            height: 3px;
+            border-radius: 10px;
+        }
+        .screen-reader-wrapper-step-3 {
+            float: left;
+            background: white;
+            width: 33%;
+            height: 3px;
+            border-radius: 10px;
+        }
         ._access-menu ul li {
             list-style-type: none;
             cursor: pointer;
@@ -408,6 +442,10 @@ export class Accessibility {
             opacity: 0.05;
         }
         ._access-menu ul li.active, ._access-menu ul li.active:hover {
+            color: #fff;
+            background-color: #000;
+        }
+        ._access-menu div.active {
             color: #fff;
             background-color: #000;
         }
@@ -702,18 +740,18 @@ export class Accessibility {
                                 }
                             ]
                         },
-                        {
-                            type: 'li',
-                            attrs: {
-                                'data-access-action': 'textToSpeech'
-                            },
-                            children: [
-                                {
-                                    type: '#text',
-                                    text: this.options.labels.textToSpeech
-                                }
-                            ]
-                        },
+                        // {
+                        //     type: 'li',
+                        //     attrs: {
+                        //         'data-access-action': 'textToSpeech',
+                        //     },
+                        //     children: [
+                        //         {
+                        //             type: '#text',
+                        //             text: this.options.labels.textToSpeech
+                        //         }
+                        //     ]
+                        // },
                         {
                             type: 'li',
                             attrs: {
@@ -727,7 +765,59 @@ export class Accessibility {
                             ]
                         }
                     ]
-                }
+                },
+                {
+                    type: 'div',
+                    attrs: {
+                        'class': '_access-scrollbar'
+
+                    },
+                    children: [
+                        {
+                            type: 'div',
+                            attrs: {
+                                'data-access-action': 'textToSpeech',
+                                'class': 'texting'
+                            },
+                            children: [
+                                {
+                                    type: '#text',
+                                    text: this.options.labels.screenReader
+                                },
+                                {
+                                    type: 'div',
+                                    attrs: {
+                                        'class': 'screen-reader-wrapper',
+                                    },
+                                    children: [
+                                        {
+                                            type: 'div',
+                                            attrs: {
+                                                'class': 'screen-reader-wrapper-step-1',
+                                            },
+                                            text: "demo"
+                                        },
+                                        {
+                                            type: 'div',
+                                            attrs: {
+                                                'class': 'screen-reader-wrapper-step-2',
+                                            },
+                                            text: "demo2"
+                                        },
+                                        {
+                                            type: 'div',
+                                            attrs: {
+                                                'class': 'screen-reader-wrapper-step-3',
+                                            },
+                                            text: "demo3"
+                                        },
+
+                                    ]
+                                },
+                            ]
+                        },
+                    ]
+                },
             ]
         });
 
@@ -975,6 +1065,7 @@ export class Accessibility {
         if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) return;
         let msg = new window.SpeechSynthesisUtterance(text);
         msg.lang = this.options.textToSpeechLang;
+        msg.rate = this.initialValues.speechRate;
         let voices = window.speechSynthesis.getVoices();
         let isLngSupported = false;
         for (let i = 0; i < voices.length; i++) {
@@ -1015,7 +1106,10 @@ export class Accessibility {
             }
         }
         catch (ex) { }
-        self.textToSpeech(window.event.target.innerText);
+        console.log(window.event.target.className);
+        if(window.event.target.className != 'texting active') {
+            self.textToSpeech(window.event.target.innerText);
+        }
     }
     runHotkey(name) {
         switch (name) {
@@ -1059,6 +1153,7 @@ export class Accessibility {
             textToSpeech: false,
             bigCursor: false,
             readingGuide: false,
+            speechRate: 1,
             body: {},
             html: {}
         };
@@ -1102,9 +1197,41 @@ export class Accessibility {
             this.icon.style.opacity = '1';
         }, 10);
 
-        // if (window.SpeechSynthesisUtterance || window.speechSynthesis) {
-        //     let voices = window.speechSynthesis.getVoices();
-        // }
+        let tSpeechList = document.querySelector('[data-access-action="textToSpeech"]');
+        let step1 = document.getElementsByClassName('screen-reader-wrapper-step-1'); 
+        let step2 = document.getElementsByClassName('screen-reader-wrapper-step-2'); 
+        let step3 = document.getElementsByClassName('screen-reader-wrapper-step-3'); 
+        tSpeechList.addEventListener('click', () => {
+            if(this.initialValues.speechRate === 1 && !tSpeechList.classList.contains('active')){
+                this.menuInterface.textToSpeech(false);
+                this.textToSpeech("Screen Reader Enabled. Reading Pace - Normal.");
+                step2[0].style.background="black";
+                step3[0].style.background="black";
+
+            }
+            else if(this.initialValues.speechRate === 1 && tSpeechList.classList.contains('active')) {
+                this.initialValues.speechRate = 3;
+                this.textToSpeech("Reading Pace - Fast.");
+                step3[0].style.background="black";
+                step2[0].style.background="white";
+            }
+            else if(this.initialValues.speechRate === 3 && tSpeechList.classList.contains('active')) {
+                this.initialValues.speechRate = 0.5;
+                this.textToSpeech("Reading Pace - Slow.");
+                step3[0].style.background="white";
+            }
+            else if(this.initialValues.speechRate ===0.5 && tSpeechList.classList.contains('active')) {
+                this.initialValues.speechRate = 1;
+                this.textToSpeech("Screen Reader Disabled");
+                this.menuInterface.textToSpeech(true);
+                step1[0].style.background="white";
+                step2[0].style.background="white";
+                step3[0].style.background="white";
+               
+            } 
+        })
+
+
         this.updateReadGuide = function (e) {
             let newPos = 0;
             if (e.type == 'touchmove') {
@@ -1284,9 +1411,11 @@ export class Accessibility {
             textToSpeech: (destroy) => {
                 // this.sessionState.textToSpeech = typeof destroy === 'undefined' ? true : false;
                 this.onChange(false);
+                console.log("called from");
                 let className = '_access-text-to-speech';
                 let remove = () => {
                     let style = document.querySelector('.' + className);
+                    console.log(style);
                     if (style) {
                         style.parentElement.removeChild(style);
                         document.removeEventListener('click', this.read, false);
@@ -1297,11 +1426,13 @@ export class Accessibility {
                 if (destroy) {
                     document.querySelector('._access-menu [data-access-action="textToSpeech"]').classList.remove('active');
                     this.initialValues.textToSpeech = false;
+                    step1[0].style.background="white";
+                    step2[0].style.background="white";
+                    step3[0].style.background="white";
                     return remove();
                 }
 
                 document.querySelector('._access-menu [data-access-action="textToSpeech"]').classList.toggle('active');
-
                 this.initialValues.textToSpeech = !this.initialValues.textToSpeech;
                 if (this.initialValues.textToSpeech) {
                     let css = `
@@ -1311,10 +1442,11 @@ export class Accessibility {
                     `;
                     common.injectStyle(css, { className: className });
                     common.deployedObjects.set('.' + className, true);
+                    console.log("adding listener");
                     document.addEventListener('click', this.read, false);
                 }
                 else {
-                    remove();
+                        remove();
                 }
             },
             speechToText: (destroy) => {
@@ -1344,7 +1476,7 @@ export class Accessibility {
                     return remove();
                 }
 
-                document.querySelector('._access-menu [data-access-action="speechToText"]').classList.toggle('active');
+                // document.querySelector('._access-menu [data-access-action="speechToText"]').classList.toggle('active');
 
                 this.initialValues.speechToText = !this.initialValues.speechToText;
                 if (this.initialValues.speechToText) {
@@ -1389,7 +1521,7 @@ export class Accessibility {
                     }
                 }
                 else {
-                    remove();
+                        remove();
                 }
             }
         }
