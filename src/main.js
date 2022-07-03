@@ -795,21 +795,18 @@ export class Accessibility {
                                             attrs: {
                                                 'class': 'screen-reader-wrapper-step-1',
                                             },
-                                            text: "demo"
                                         },
                                         {
                                             type: 'div',
                                             attrs: {
                                                 'class': 'screen-reader-wrapper-step-2',
                                             },
-                                            text: "demo2"
                                         },
                                         {
                                             type: 'div',
                                             attrs: {
                                                 'class': 'screen-reader-wrapper-step-3',
                                             },
-                                            text: "demo3"
                                         },
 
                                     ]
