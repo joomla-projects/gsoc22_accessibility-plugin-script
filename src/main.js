@@ -740,18 +740,45 @@ export class Accessibility {
                                 }
                             ]
                         },
-                        // {
-                        //     type: 'li',
-                        //     attrs: {
-                        //         'data-access-action': 'textToSpeech',
-                        //     },
-                        //     children: [
-                        //         {
-                        //             type: '#text',
-                        //             text: this.options.labels.textToSpeech
-                        //         }
-                        //     ]
-                        // },
+                        {
+                            type: 'li',
+                            attrs: {
+                                'data-access-action': 'textToSpeech',
+                            },
+                            children: [
+                                {
+                                    type: "#text",
+                                    text: this.options.labels.screenReader
+                                },
+                                    {
+                                        type: 'div',
+                                        attrs: {
+                                            'class': 'screen-reader-wrapper',
+                                        },
+                                        children: [
+                                            {
+                                                type: 'div',
+                                                attrs: {
+                                                    'class': 'screen-reader-wrapper-step-1',
+                                                },
+                                            },
+                                            {
+                                                type: 'div',
+                                                attrs: {
+                                                    'class': 'screen-reader-wrapper-step-2',
+                                                },
+                                            },
+                                            {
+                                                type: 'div',
+                                                attrs: {
+                                                    'class': 'screen-reader-wrapper-step-3',
+                                                },
+                                            },
+    
+                                        ]
+                                    },
+                            ]
+                        },
                         {
                             type: 'li',
                             attrs: {
@@ -760,61 +787,12 @@ export class Accessibility {
                             children: [
                                 {
                                     type: '#text',
-                                    text: this.options.labels.speechToText
-                                }
+                                    text: this.options.labels.speechToText,
+                                },
                             ]
                         }
                     ]
-                },
-                {
-                    type: 'div',
-                    attrs: {
-                        'class': '_access-scrollbar'
-
-                    },
-                    children: [
-                        {
-                            type: 'div',
-                            attrs: {
-                                'data-access-action': 'textToSpeech',
-                                'class': 'texting'
-                            },
-                            children: [
-                                {
-                                    type: '#text',
-                                    text: this.options.labels.screenReader
-                                },
-                                {
-                                    type: 'div',
-                                    attrs: {
-                                        'class': 'screen-reader-wrapper',
-                                    },
-                                    children: [
-                                        {
-                                            type: 'div',
-                                            attrs: {
-                                                'class': 'screen-reader-wrapper-step-1',
-                                            },
-                                        },
-                                        {
-                                            type: 'div',
-                                            attrs: {
-                                                'class': 'screen-reader-wrapper-step-2',
-                                            },
-                                        },
-                                        {
-                                            type: 'div',
-                                            attrs: {
-                                                'class': 'screen-reader-wrapper-step-3',
-                                            },
-                                        },
-
-                                    ]
-                                },
-                            ]
-                        },
-                    ]
-                },
+                }
             ]
         });
 
@@ -1103,8 +1081,8 @@ export class Accessibility {
             }
         }
         catch (ex) { }
-        console.log(window.event.target.className);
-        if(window.event.target.className != 'texting active') {
+        let x =  document.querySelector('._access-menu [data-access-action="textToSpeech"]')
+        if(window.event.target != x) {
             self.textToSpeech(window.event.target.innerText);
         }
     }
@@ -1194,41 +1172,6 @@ export class Accessibility {
             this.icon.style.opacity = '1';
         }, 10);
 
-        let tSpeechList = document.querySelector('[data-access-action="textToSpeech"]');
-        let step1 = document.getElementsByClassName('screen-reader-wrapper-step-1'); 
-        let step2 = document.getElementsByClassName('screen-reader-wrapper-step-2'); 
-        let step3 = document.getElementsByClassName('screen-reader-wrapper-step-3'); 
-        tSpeechList.addEventListener('click', () => {
-            if(this.initialValues.speechRate === 1 && !tSpeechList.classList.contains('active')){
-                this.menuInterface.textToSpeech(false);
-                this.textToSpeech("Screen Reader Enabled. Reading Pace - Normal.");
-                step2[0].style.background="black";
-                step3[0].style.background="black";
-
-            }
-            else if(this.initialValues.speechRate === 1 && tSpeechList.classList.contains('active')) {
-                this.initialValues.speechRate = 3;
-                this.textToSpeech("Reading Pace - Fast.");
-                step3[0].style.background="black";
-                step2[0].style.background="white";
-            }
-            else if(this.initialValues.speechRate === 3 && tSpeechList.classList.contains('active')) {
-                this.initialValues.speechRate = 0.5;
-                this.textToSpeech("Reading Pace - Slow.");
-                step3[0].style.background="white";
-            }
-            else if(this.initialValues.speechRate ===0.5 && tSpeechList.classList.contains('active')) {
-                this.initialValues.speechRate = 1;
-                this.textToSpeech("Screen Reader Disabled");
-                this.menuInterface.textToSpeech(true);
-                step1[0].style.background="white";
-                step2[0].style.background="white";
-                step3[0].style.background="white";
-               
-            } 
-        })
-
-
         this.updateReadGuide = function (e) {
             let newPos = 0;
             if (e.type == 'touchmove') {
@@ -1238,6 +1181,7 @@ export class Accessibility {
             }
             document.getElementById('access_read_guide_bar').style.top = (newPos - (parseInt(self.options.guide.height.replace('px')) + 5)) + 'px';
         }
+
         this.menuInterface = {
             increaseText: () => {
                 this.alterTextSize(true);
@@ -1406,13 +1350,15 @@ export class Accessibility {
                 }
             },
             textToSpeech: (destroy) => {
-                // this.sessionState.textToSpeech = typeof destroy === 'undefined' ? true : false;
-                this.onChange(false);
-                console.log("called from");
+                let tSpeechList = document.querySelector('._access-menu [data-access-action="textToSpeech"]');
+                let step1 = document.getElementsByClassName('screen-reader-wrapper-step-1'); 
+                let step2 = document.getElementsByClassName('screen-reader-wrapper-step-2'); 
+                let step3 = document.getElementsByClassName('screen-reader-wrapper-step-3');
                 let className = '_access-text-to-speech';
+                this.onChange(false);
+                
                 let remove = () => {
                     let style = document.querySelector('.' + className);
-                    console.log(style);
                     if (style) {
                         style.parentElement.removeChild(style);
                         document.removeEventListener('click', this.read, false);
@@ -1422,28 +1368,52 @@ export class Accessibility {
 
                 if (destroy) {
                     document.querySelector('._access-menu [data-access-action="textToSpeech"]').classList.remove('active');
+                    step1[0].style.background="#ffffff";
+                    step2[0].style.background="#ffffff";
+                    step3[0].style.background="#ffffff";
                     this.initialValues.textToSpeech = false;
-                    step1[0].style.background="white";
-                    step2[0].style.background="white";
-                    step3[0].style.background="white";
                     return remove();
                 }
+                
+                if(this.initialValues.speechRate === 1 && !tSpeechList.classList.contains('active')) {
+                    this.initialValues.textToSpeech = false;
+                    this.textToSpeech("Screen Reader enabled. Reading Pace - Normal");
+                    tSpeechList.classList.add('active');
+                    step2[0].style.background="#000000";
+                    step3[0].style.background="#000000";
+                }
+                else if(this.initialValues.speechRate === 1 && tSpeechList.classList.contains('active')) {
+                    this.initialValues.speechRate = 3;
+                    this.textToSpeech("Reading Pace - Fast");
+                    step2[0].style.background="#ffffff";
+                }
+                else if(this.initialValues.speechRate === 3 && tSpeechList.classList.contains('active')) {
+                    this.initialValues.speechRate = 0.5;
+                    this.textToSpeech("Reading Pace - Slow");
+                    step3[0].style.background="#ffffff";
 
-                document.querySelector('._access-menu [data-access-action="textToSpeech"]').classList.toggle('active');
-                this.initialValues.textToSpeech = !this.initialValues.textToSpeech;
-                if (this.initialValues.textToSpeech) {
+                } 
+                else{
+                    this.initialValues.speechRate = 1;
+                    this.textToSpeech("Screen Reader - Disabled");
+                    tSpeechList.classList.remove('active');
+                    this.initialValues.textToSpeech = true;
+                }
+
+                if (!this.initialValues.textToSpeech) {
                     let css = `
                         *:hover {
                             box-shadow: 2px 2px 2px rgba(180,180,180,0.7);
                         }
                     `;
+                    if(tSpeechList.classList.contains('active') && this.initialValues.speechRate === 1){
                     common.injectStyle(css, { className: className });
                     common.deployedObjects.set('.' + className, true);
-                    console.log("adding listener");
                     document.addEventListener('click', this.read, false);
+                    }
                 }
                 else {
-                        remove();
+                    remove();
                 }
             },
             speechToText: (destroy) => {
