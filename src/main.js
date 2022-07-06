@@ -821,6 +821,9 @@ export class Accessibility {
 
     addListeners() {
         let lis = document.querySelectorAll('._access-menu ul li');
+        let step1 = document.getElementsByClassName('screen-reader-wrapper-step-1'); 
+        let step2 = document.getElementsByClassName('screen-reader-wrapper-step-2'); 
+        let step3 = document.getElementsByClassName('screen-reader-wrapper-step-3');
 
         for (let i = 0; i < lis.length; i++) {
             lis[i].addEventListener('click', (e) => {
@@ -828,7 +831,15 @@ export class Accessibility {
                 this.invoke(evt.target.getAttribute('data-access-action'));
             }, false);
         }
-    }
+
+        [...step1, ...step2, ...step3].forEach(el => {
+            el.addEventListener('click', (e) => {
+                let evt = e || window.event
+                console.log(evt)
+                this.invoke(evt.target.parentElement.parentElement.getAttribute('data-access-action'));
+            }, false);
+        });
+}
 
     disableUnsupportedModules() {
         for (let i in this.options.modules) {
@@ -910,12 +921,14 @@ export class Accessibility {
                     all[i].style.fontSize = fSize + 'px';
                 }
             }
+            // if(this.initialValues.textToSpeech) this.textToSpeech(`Font Size ${isIncrease ?'Increased' : 'Decreased'}`);
         }
         else if (this.options.textEmlMode) {
             let fp = this.html.style.fontSize;
             if (fp.indexOf('%')) {
                 fp = fp.replace('%', '') * 1;
                 this.html.style.fontSize = (fp + factor) + '%';
+                // if(this.initialValues.textToSpeech) this.textToSpeech(`Font Size ${isIncrease ?'Increased' : 'Decreased'}`);
             }
             else {
                 common.warn('Accessibility.textEmlMode, html element is not set in %.');
@@ -970,6 +983,7 @@ export class Accessibility {
                     all[i].style.letterSpacing = factor + 'px';
                 }
             }
+            // if(this.initialValues.textToSpeech) this.textToSpeech(`Text Spacing ${isIncrease ?'Increased' : 'Decreased'}`);
         }
         else {
             // wordSpacing
@@ -986,6 +1000,7 @@ export class Accessibility {
             if (fSpacing2 && fSpacing2.sufix && !isNaN(fSpacing2.size * 1)) {
                 this.body.style.letterSpacing = ((fSpacing2.size * 1) + factor) + fSpacing2.sufix;
             }
+            // if(this.initialValues.textToSpeech) this.textToSpeech(`Text Spacing ${isIncrease ?'Increased' : 'Decreased'}`);
         }
     }
 
@@ -1081,10 +1096,12 @@ export class Accessibility {
             }
         }
         catch (ex) { }
-        let x =  document.querySelector('._access-menu [data-access-action="textToSpeech"]')
-        if(window.event.target != x) {
-            self.textToSpeech(window.event.target.innerText);
+        let allContent = Array.prototype.slice.call(document.querySelectorAll('._access-menu *'));
+        console.log((window.event.target))
+        for(const key in allContent){
+            if(allContent[key] === window.event.target) return;
         }
+        self.textToSpeech(window.event.target.innerText);
     }
     runHotkey(name) {
         switch (name) {
@@ -1212,7 +1229,9 @@ export class Accessibility {
                     return;
                 }
 
-
+                if (this.initialValues.invertColors && this.initialValues.textToSpeech) {
+                    this.textToSpeech("Colors Set To Normal");
+                }
                 document.querySelector('._access-menu [data-access-action="invertColors"]').classList.toggle('active');
                 this.initialValues.invertColors = !this.initialValues.invertColors;
                 this.sessionState.invertColors = this.initialValues.invertColors;
@@ -1221,6 +1240,10 @@ export class Accessibility {
                     if (this.initialValues.grayHues)
                         this.menuInterface.grayHues(true);
                     this.html.style.filter = 'invert(1)';
+                    
+                    if(this.initialValues.textToSpeech) {
+                        this.textToSpeech("Colors Inverted");
+                    }
                 }
                 else {
                     this.html.style.filter = '';
@@ -1252,11 +1275,16 @@ export class Accessibility {
                 this.initialValues.grayHues = !this.initialValues.grayHues;
                 this.sessionState.grayHues = this.initialValues.grayHues;
                 this.onChange(true);
+
+                if(this.initialValues.textToSpeech && !this.initialValues.grayHues) 
+                    this.textToSpeech("Gray Hues Disabled.");
                 let val;
                 if (this.initialValues.grayHues) {
                     val = 'grayscale(1)'
-                    if (this.initialValues.invertColors)
+                    if (this.initialValues.invertColors){
                         this.menuInterface.invertColors(true)
+                    }
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Gray Hues Enabled.")
                 } else {
                     val = ''
                 }
@@ -1295,8 +1323,10 @@ export class Accessibility {
                 `;
                     common.injectStyle(css, { className: className });
                     common.deployedObjects.set('.' + className, true);
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Links UnderLined");
                 }
                 else {
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Links UnderLine Removed");
                     remove();
                 }
             },
@@ -1316,6 +1346,8 @@ export class Accessibility {
                 this.sessionState.bigCursor = this.initialValues.bigCursor;
                 this.onChange(true);
                 this.html.classList.toggle('_access_cursor');
+                if(this.initialValues.textToSpeech && this.initialValues.bigCursor) this.textToSpeech("Big Cursor Enabled");
+                if(this.initialValues.textToSpeech && !this.initialValues.bigCursor) this.textToSpeech("Big Cursor Disabled");
             },
             readingGuide: (destroy) => {
                 if (destroy) {
@@ -1341,12 +1373,14 @@ export class Accessibility {
                     document.body.append(read);
                     document.body.addEventListener('touchmove', this.updateReadGuide, false);
                     document.body.addEventListener('mousemove', this.updateReadGuide, false);
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Reading Guide Enabled");
                 } else {
                     if (document.getElementById('access_read_guide_bar') != undefined) {
                         document.getElementById('access_read_guide_bar').remove();
                     }
                     document.body.removeEventListener('touchmove', this.updateReadGuide, false);
                     document.body.removeEventListener('mousemove', this.updateReadGuide, false);
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Reading Guide Disabled");
                 }
             },
             textToSpeech: (destroy) => {
@@ -1376,19 +1410,19 @@ export class Accessibility {
                 }
                 
                 if(this.initialValues.speechRate === 1 && !tSpeechList.classList.contains('active')) {
-                    this.initialValues.textToSpeech = false;
+                    this.initialValues.textToSpeech = true;
                     this.textToSpeech("Screen Reader enabled. Reading Pace - Normal");
                     tSpeechList.classList.add('active');
                     step2[0].style.background="#000000";
                     step3[0].style.background="#000000";
                 }
                 else if(this.initialValues.speechRate === 1 && tSpeechList.classList.contains('active')) {
-                    this.initialValues.speechRate = 3;
+                    this.initialValues.speechRate = 1.5;
                     this.textToSpeech("Reading Pace - Fast");
                     step2[0].style.background="#ffffff";
                 }
-                else if(this.initialValues.speechRate === 3 && tSpeechList.classList.contains('active')) {
-                    this.initialValues.speechRate = 0.5;
+                else if(this.initialValues.speechRate === 1.5 && tSpeechList.classList.contains('active')) {
+                    this.initialValues.speechRate = 0.7;
                     this.textToSpeech("Reading Pace - Slow");
                     step3[0].style.background="#ffffff";
 
@@ -1397,10 +1431,10 @@ export class Accessibility {
                     this.initialValues.speechRate = 1;
                     this.textToSpeech("Screen Reader - Disabled");
                     tSpeechList.classList.remove('active');
-                    this.initialValues.textToSpeech = true;
+                    this.initialValues.textToSpeech = false;
                 }
 
-                if (!this.initialValues.textToSpeech) {
+                if (this.initialValues.textToSpeech) {
                     let css = `
                         *:hover {
                             box-shadow: 2px 2px 2px rgba(180,180,180,0.7);
