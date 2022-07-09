@@ -102,7 +102,8 @@ let _options = {
         readingGuide: 'reading guide',
         underlineLinks: 'underline links',
         textToSpeech: 'text to speech',
-        speechToText: 'speech to text'
+        speechToText: 'speech to text',
+        dyslexicFont: 'Dyslexic font',
     },
     textToSpeechLang: 'en-US',
     speechToTextLang: 'en-US',
@@ -486,7 +487,35 @@ export class Accessibility {
         }
         ._access-menu ul li[data-access-action="speechToText"]:before {
             content: ${!this.options.icon.useEmojis ? '"mic"' : '"🎤"'};
-        }`;
+        }
+        .dyslexic-mode {
+            font-family: openDyslexicRegular, sans-serif;
+            letter-spacing: 0.20ch;
+            word-spacing: 0.40ch;
+            font-weight: 600;
+            color: #000;
+        }
+        .dyslexia-mode main {
+            line-height: 2.0;
+         }
+         .dyslexia-mode main p {
+            margin-top: 3.5em;
+         }
+         .dyslexia-mode h1,h2,h3,h4,h5,h6 {
+            font-weight: bold;
+         }
+        // .dyslexia-mode h2 {
+        //     border: none; border-bottom: thin grey solid;  /* just keeping the bottom border for this element, to retain some separation */
+        //     max-width: 100%; /* standard width */
+        //     transform: none; /* do not rotate */
+        //     background-color: inherit; /* We no longer look like a label, so we don't require our own background */
+        //     margin-bottom: 1em; padding-left:0; /* some spacing adjustments */
+        //   }
+        //   .dyslexia-mode main li:nth-of-type(odd) {
+        //     // background-color: palegoldenrod;
+        //     }
+        
+        `;
         let className = '_access-main-css';
         common.injectStyle(css, { className: className });
         common.deployedObjects.set('.' + className, false);
@@ -628,6 +657,19 @@ export class Accessibility {
                                 {
                                     type: '#text',
                                     text: this.options.labels.decreaseTextSpacing
+                                }
+                            ]
+                        },
+                        {
+                            type: 'li',
+                            attrs: {
+                                'data-access-action': 'dyslexicFont',
+                                'title': this.options.labels.dyslexicFont,
+                            },
+                            children: [
+                                {
+                                    type: '#text',
+                                    text: this.options.labels.dyslexicFont,
                                 }
                             ]
                         },
@@ -825,6 +867,10 @@ export class Accessibility {
 
         this.sessionState.textSpace = 0;
         this.onChange(true);
+    }
+
+    dyslexicFont() {
+        document.body.classList.toggle('dyslexic-mode');
     }
 
     alterTextSize(isIncrease) {
@@ -1126,6 +1172,9 @@ export class Accessibility {
             },
             decreaseTextSpacing: () => {
                 this.alterTextSpace(false);
+            },
+            dyslexicFont: () => {
+                this.dyslexicFont();
             },
             invertColors: (destroy) => {
                 if (typeof this.initialValues.html.backgroundColor === 'undefined')
