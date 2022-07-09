@@ -871,6 +871,7 @@ export class Accessibility {
 
     dyslexicFont() {
         document.body.classList.toggle('dyslexic-mode');
+        document.querySelector('._access-menu [data-access-action="dyslexicFont"]').classList.toggle('active');
     }
 
     alterTextSize(isIncrease) {
