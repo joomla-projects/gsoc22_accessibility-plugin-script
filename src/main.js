@@ -488,33 +488,51 @@ export class Accessibility {
         ._access-menu ul li[data-access-action="speechToText"]:before {
             content: ${!this.options.icon.useEmojis ? '"mic"' : '"🎤"'};
         }
-        .dyslexic-mode {
-            font-family: openDyslexicRegular, sans-serif;
-            letter-spacing: 0.20ch;
-            word-spacing: 0.40ch;
-            font-weight: 600;
-            color: #000;
+        @font-face {
+            font-family: 'opendyslexic';
+            src: url('./fonts/opendyslexic/OpenDyslexic-Regular.otf');
+            font-style: normal;
+            font-weight: normal;
         }
-        .dyslexia-mode main {
-            line-height: 2.0;
-         }
-         .dyslexia-mode main p {
-            margin-top: 3.5em;
-         }
-         .dyslexia-mode h1,h2,h3,h4,h5,h6 {
-            font-weight: bold;
-         }
-        // .dyslexia-mode h2 {
-        //     border: none; border-bottom: thin grey solid;  /* just keeping the bottom border for this element, to retain some separation */
-        //     max-width: 100%; /* standard width */
-        //     transform: none; /* do not rotate */
-        //     background-color: inherit; /* We no longer look like a label, so we don't require our own background */
-        //     margin-bottom: 1em; padding-left:0; /* some spacing adjustments */
-        //   }
-        //   .dyslexia-mode main li:nth-of-type(odd) {
-        //     // background-color: palegoldenrod;
-        //     }
-        
+        @font-face {
+            font-family: 'opendyslexicmono';
+            src: url('./fonts/opendyslexic/OpenDyslexicMono-Regular.otf');
+            font-style: normal;
+            font-weight: normal;
+        }
+        .dyslexic-mode {
+            font-family: 'opendyslexic';
+        }
+        .dyslexic-mode input, .dyslexic-mode textarea {
+            font-family: opendyslexic !important;
+        }
+        .dyslexic-mode p,
+        .dyslexic-mode h1,
+        .dyslexic-mode h2,
+        .dyslexic-mode h3,
+        .dyslexic-mode h4,
+        .dyslexic-mode h5,
+        .dyslexic-mode input,
+        .dyslexic-mode ul,
+        .dyslexic-mode span,
+        .dyslexic-mode font,
+        .dyslexic-mode strong,
+        .dyslexic-mode th,
+        .dyslexic-mode td {
+        font-family: opendyslexic !important;
+        line-height: 150%;
+        }
+        .dyslexic-mode p:nth-child(even),
+        .dyslexic-mode li:nth-child(even) {
+            opacity: rgba(0, 0, 0, 0.03);
+        }
+        .dyslexic-mode pre,
+        .dyslexic-mode code,
+        .dyslexic-mode pre *,
+        .dyslexic-mode code * {
+        font-family: opendyslexicmono !important;
+        line-height: 150%;
+        }
         `;
         let className = '_access-main-css';
         common.injectStyle(css, { className: className });
