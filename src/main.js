@@ -906,7 +906,7 @@ export class Accessibility {
     alterTextSize(isIncrease) {
         this.sessionState.textSize += isIncrease ? 1 : -1;
         this.onChange(true);
-        let factor = 2;
+        let factor = 12.5;
         if (!isIncrease)
             factor *= -1;
         if (this.options.textPixelMode) {
@@ -921,14 +921,14 @@ export class Accessibility {
                     all[i].style.fontSize = fSize + 'px';
                 }
             }
-            // if(this.initialValues.textToSpeech) this.textToSpeech(`Font Size ${isIncrease ?'Increased' : 'Decreased'}`);
+            if(this.initialValues.textToSpeech) this.textToSpeech(`Font Size ${isIncrease ?'Increased' : 'Decreased'}`);
         }
         else if (this.options.textEmlMode) {
             let fp = this.html.style.fontSize;
             if (fp.indexOf('%')) {
                 fp = fp.replace('%', '') * 1;
                 this.html.style.fontSize = (fp + factor) + '%';
-                // if(this.initialValues.textToSpeech) this.textToSpeech(`Font Size ${isIncrease ?'Increased' : 'Decreased'}`);
+                if(this.initialValues.textToSpeech) this.textToSpeech(`Font Size ${isIncrease ?'Increased' : 'Decreased'}`);
             }
             else {
                 common.warn('Accessibility.textEmlMode, html element is not set in %.');
@@ -947,7 +947,7 @@ export class Accessibility {
     alterTextSpace(isIncrease) {
         this.sessionState.textSpace += isIncrease ? 1 : -1;
         this.onChange(true);
-        let factor = 1;
+        let factor = 2;
         if (!isIncrease)
             factor *= -1;
         if (this.options.textPixelMode) {
@@ -983,7 +983,7 @@ export class Accessibility {
                     all[i].style.letterSpacing = factor + 'px';
                 }
             }
-            // if(this.initialValues.textToSpeech) this.textToSpeech(`Text Spacing ${isIncrease ?'Increased' : 'Decreased'}`);
+            if(this.initialValues.textToSpeech) this.textToSpeech(`Text Spacing ${isIncrease ?'Increased' : 'Decreased'}`);
         }
         else {
             // wordSpacing
@@ -1000,7 +1000,7 @@ export class Accessibility {
             if (fSpacing2 && fSpacing2.sufix && !isNaN(fSpacing2.size * 1)) {
                 this.body.style.letterSpacing = ((fSpacing2.size * 1) + factor) + fSpacing2.sufix;
             }
-            // if(this.initialValues.textToSpeech) this.textToSpeech(`Text Spacing ${isIncrease ?'Increased' : 'Decreased'}`);
+            if(this.initialValues.textToSpeech) this.textToSpeech(`Text Spacing ${isIncrease ?'Increased' : 'Decreased'}`);
         }
     }
 
