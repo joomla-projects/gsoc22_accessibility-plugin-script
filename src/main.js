@@ -847,6 +847,7 @@ export class Accessibility {
         this.menuInterface.readingGuide(true);
         this.resetTextSize();
         this.resetTextSpace();
+        this.resetFont();
         // for (let i of document.querySelectorAll('._access-menu ul li.active')) {
         //     i.classList.remove('active');
         // }
@@ -885,6 +886,10 @@ export class Accessibility {
 
         this.sessionState.textSpace = 0;
         this.onChange(true);
+    }
+
+    resetFont() {
+        if(document.body.classList.contains('dyslexic-mode')) document.body.classList.remove('dyslexic-mode');
     }
 
     dyslexicFont() {
