@@ -551,7 +551,8 @@ export class Accessibility {
             attrs: {
                 'class': className,
                 'style': iStyle,
-                'title': this.options.labels.menuTitle
+                'title': this.options.labels.menuTitle,
+                'tabIndex': 0
             },
             children: [
                 {
@@ -624,7 +625,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'increaseText'
+                                'data-access-action': 'increaseText',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -636,7 +638,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'decreaseText'
+                                'data-access-action': 'decreaseText',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -648,7 +651,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'increaseTextSpacing'
+                                'data-access-action': 'increaseTextSpacing',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -660,7 +664,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'decreaseTextSpacing'
+                                'data-access-action': 'decreaseTextSpacing',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -673,7 +678,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'invertColors',
-                                'title': this.parseKeys(this.options.hotkeys.keys.invertColors)
+                                'title': this.parseKeys(this.options.hotkeys.keys.invertColors),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -686,7 +692,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'grayHues',
-                                'title': this.parseKeys(this.options.hotkeys.keys.grayHues)
+                                'title': this.parseKeys(this.options.hotkeys.keys.grayHues),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -699,7 +706,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'underlineLinks',
-                                'title': this.parseKeys(this.options.hotkeys.keys.underlineLinks)
+                                'title': this.parseKeys(this.options.hotkeys.keys.underlineLinks),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -712,7 +720,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'bigCursor',
-                                'title': this.parseKeys(this.options.hotkeys.keys.bigCursor)
+                                'title': this.parseKeys(this.options.hotkeys.keys.bigCursor),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -731,7 +740,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'readingGuide',
-                                'title': this.parseKeys(this.options.hotkeys.keys.readingGuide)
+                                'title': this.parseKeys(this.options.hotkeys.keys.readingGuide),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -744,6 +754,7 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'textToSpeech',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -760,18 +771,21 @@ export class Accessibility {
                                                 type: 'div',
                                                 attrs: {
                                                     'class': 'screen-reader-wrapper-step-1',
+                                                    'tabIndex': '-1'
                                                 },
                                             },
                                             {
                                                 type: 'div',
                                                 attrs: {
                                                     'class': 'screen-reader-wrapper-step-2',
+                                                    'tabIndex': '-1'
                                                 },
                                             },
                                             {
                                                 type: 'div',
                                                 attrs: {
                                                     'class': 'screen-reader-wrapper-step-3',
+                                                    'tabIndex': '-1'
                                                 },
                                             },
     
@@ -782,7 +796,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'speechToText'
+                                'data-access-action': 'speechToText',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -810,11 +825,21 @@ export class Accessibility {
         }, 1);
         common.deployedObjects.set('._access-menu', false);
         let closeBtn = document.querySelector('._access-menu ._menu-close-btn');
-        closeBtn.addEventListener('click', () => {
-            this.toggleMenu();
-        }, false);
+        ['click','keyup'].forEach(evt => {
+            closeBtn.addEventListener(evt, (e) => {
+                let et = e || window.event;
+                if(et.detail === 0 && et.key !== "Enter") return;
+                this.toggleMenu();
+            }, false);
+        })
         let resetBtn = document.querySelector('._access-menu ._menu-reset-btn');
-        resetBtn.addEventListener('click', () => { this.resetAll(); }, false);
+        ['click','keyup'].forEach(evt => {
+            resetBtn.addEventListener(evt, (e) => {
+                let et = e || window.event;
+                if(et.detail === 0 && et.key !== "Enter") return;
+                this.resetAll();
+            }, false);
+        })
 
         return menuElem;
     }
@@ -826,16 +851,17 @@ export class Accessibility {
         let step3 = document.getElementsByClassName('screen-reader-wrapper-step-3');
 
         for (let i = 0; i < lis.length; i++) {
-            lis[i].addEventListener('click', (e) => {
-                let evt = e || window.event
-                this.invoke(evt.target.getAttribute('data-access-action'));
-            }, false);
-        }
-
+            ['click','keyup'].forEach( evt =>
+                lis[i].addEventListener(evt,(e)=>{
+                    let et = e || window.event;
+                    if(et.detail === 0 && et.key !== "Enter") return;
+                    this.invoke(et.target.getAttribute('data-access-action'));
+                })
+        )};
+        
         [...step1, ...step2, ...step3].forEach(el => {
             el.addEventListener('click', (e) => {
                 let evt = e || window.event
-                console.log(evt)
                 this.invoke(evt.target.parentElement.parentElement.getAttribute('data-access-action'));
             }, false);
         });
@@ -1097,7 +1123,6 @@ export class Accessibility {
         }
         catch (ex) { }
         let allContent = Array.prototype.slice.call(document.querySelectorAll('._access-menu *'));
-        console.log((window.event.target))
         for(const key in allContent){
             if(allContent[key] === window.event.target) return;
         }
@@ -1118,10 +1143,21 @@ export class Accessibility {
         }
     }
     toggleMenu() {
+        let childrens = this.menu.childNodes;
         if (this.menu.classList.contains('close')) {
             if (this.options.animations && this.options.animations.buttons)
                 setTimeout(() => { this.menu.querySelector('ul').classList.toggle('before-collapse'); }, 500);
             setTimeout(() => { this.menu.classList.toggle('close'); }, 10);
+            this.menu.tabIndex = 0;
+            childrens.forEach(child => {
+                child.tabIndex = 0;
+                if(child.hasChildNodes()) {
+                    child.childNodes.forEach(li => {
+                        li.tabIndex = 0;
+                    })
+                }
+            })
+
         }
         else {
             if (this.options.animations && this.options.animations.buttons) {
@@ -1131,6 +1167,15 @@ export class Accessibility {
             else {
                 this.menu.classList.toggle('close');
             }
+            this.menu.tabIndex = -1;
+            childrens.forEach(child => {
+                child.tabIndex = 0;
+                if(child.hasChildNodes()) {
+                    child.childNodes.forEach(li => {
+                        li.tabIndex = -1;
+                    })
+                }
+            })
         }
     }
 
@@ -1182,9 +1227,17 @@ export class Accessibility {
         }
         //setMinHeight();
 
-        this.icon.addEventListener('click', () => {
-            this.toggleMenu();
-        }, false);
+        ['click','keyup'].forEach(evt => {
+            this.icon.addEventListener(evt, (e) => {
+                let et = e || window.event;
+                console.log(et);
+                if(et.detail === 0 && et.key !== "Enter") {
+                    return;
+                }
+                this.toggleMenu();
+            }, false);
+        })
+
         setTimeout(() => {
             this.icon.style.opacity = '1';
         }, 10);
