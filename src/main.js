@@ -1453,6 +1453,7 @@ export class Accessibility {
                     if (style) {
                         style.parentElement.removeChild(style);
                         document.removeEventListener('click', this.read, false);
+                        document.removeEventListener('keyup', this.read, false);
                         common.deployedObjects.remove('.' + className);
                     }
                 };
