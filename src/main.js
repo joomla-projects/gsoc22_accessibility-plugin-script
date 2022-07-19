@@ -865,7 +865,7 @@ export class Accessibility {
                 this.invoke(evt.target.parentElement.parentElement.getAttribute('data-access-action'));
             }, false);
         });
-}
+    }
 
     disableUnsupportedModules() {
         for (let i in this.options.modules) {
@@ -1123,10 +1123,14 @@ export class Accessibility {
         }
         catch (ex) { }
         let allContent = Array.prototype.slice.call(document.querySelectorAll('._access-menu *'));
-        for(const key in allContent){
-            if(allContent[key] === window.event.target) return;
+        for(const key in allContent ){
+            if(allContent[key] === window.event.target && (e instanceof MouseEvent) ) return;
         }
-        self.textToSpeech(window.event.target.innerText);
+        if(e instanceof KeyboardEvent && (e.shiftKey && e.key === 'Tab' || e.key === 'Tab')) {
+            self.textToSpeech(window.event.target.innerText);
+            return;
+        }
+        if(e instanceof MouseEvent) self.textToSpeech(window.event.target.innerText);
     }
     runHotkey(name) {
         switch (name) {
@@ -1148,9 +1152,9 @@ export class Accessibility {
             if (this.options.animations && this.options.animations.buttons)
                 setTimeout(() => { this.menu.querySelector('ul').classList.toggle('before-collapse'); }, 500);
             setTimeout(() => { this.menu.classList.toggle('close'); }, 10);
-            this.menu.tabIndex = 0;
+            this.options.icon.tabIndex = 0;
             childrens.forEach(child => {
-                child.tabIndex = 0;
+                child.hasChildNodes()?child.tabIndex=-1:child.tabIndex=0;
                 if(child.hasChildNodes()) {
                     child.childNodes.forEach(li => {
                         li.tabIndex = 0;
@@ -1169,7 +1173,7 @@ export class Accessibility {
             }
             this.menu.tabIndex = -1;
             childrens.forEach(child => {
-                child.tabIndex = 0;
+                child.hasChildNodes()?child.tabIndex=-1:child.tabIndex=0;
                 if(child.hasChildNodes()) {
                     child.childNodes.forEach(li => {
                         li.tabIndex = -1;
@@ -1497,6 +1501,7 @@ export class Accessibility {
                     common.injectStyle(css, { className: className });
                     common.deployedObjects.set('.' + className, true);
                     document.addEventListener('click', this.read, false);
+                    document.addEventListener('keyup', this.read, false);
                     }
                 }
                 else {
