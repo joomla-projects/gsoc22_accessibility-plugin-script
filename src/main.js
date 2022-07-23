@@ -1099,6 +1099,11 @@ export class Accessibility {
             // else
             //     console.log(msg);
         }
+        if(window.speechSynthesis.pending || window.speechSynthesis.speaking) {
+            window.speechSynthesis.pause;
+            window.speechSynthesis.cancel();
+            // msg = new window.SpeechSynthesisUtterance(activeElement);
+        }
         window.speechSynthesis.speak(msg);
     }
 
