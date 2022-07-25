@@ -102,7 +102,8 @@ let _options = {
         readingGuide: 'reading guide',
         underlineLinks: 'underline links',
         textToSpeech: 'text to speech',
-        speechToText: 'speech to text'
+        speechToText: 'speech to text',
+        dyslexicFont: 'Dyslexic font',
     },
     textToSpeechLang: 'en-US',
     speechToTextLang: 'en-US',
@@ -486,7 +487,53 @@ export class Accessibility {
         }
         ._access-menu ul li[data-access-action="speechToText"]:before {
             content: ${!this.options.icon.useEmojis ? '"mic"' : '"🎤"'};
-        }`;
+        }
+        @font-face {
+            font-family: 'opendyslexic';
+            src: url('./fonts/opendyslexic/OpenDyslexic-Regular.otf');
+            font-style: normal;
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: 'opendyslexicmono';
+            src: url('./fonts/opendyslexic/OpenDyslexicMono-Regular.otf');
+            font-style: normal;
+            font-weight: normal;
+        }
+        .dyslexic-mode {
+            font-family: 'opendyslexic';
+        }
+        .dyslexic-mode input, .dyslexic-mode textarea {
+            font-family: opendyslexic !important;
+        }
+        .dyslexic-mode p,
+        .dyslexic-mode h1,
+        .dyslexic-mode h2,
+        .dyslexic-mode h3,
+        .dyslexic-mode h4,
+        .dyslexic-mode h5,
+        .dyslexic-mode input,
+        .dyslexic-mode ul,
+        .dyslexic-mode span,
+        .dyslexic-mode font,
+        .dyslexic-mode strong,
+        .dyslexic-mode th,
+        .dyslexic-mode td {
+        font-family: opendyslexic !important;
+        line-height: 150%;
+        }
+        .dyslexic-mode p:nth-child(even),
+        .dyslexic-mode li:nth-child(even) {
+            opacity: rgba(0, 0, 0, 0.03);
+        }
+        .dyslexic-mode pre,
+        .dyslexic-mode code,
+        .dyslexic-mode pre *,
+        .dyslexic-mode code * {
+        font-family: opendyslexicmono !important;
+        line-height: 150%;
+        }
+        `;
         let className = '_access-main-css';
         common.injectStyle(css, { className: className });
         common.deployedObjects.set('.' + className, false);
@@ -628,6 +675,19 @@ export class Accessibility {
                                 {
                                     type: '#text',
                                     text: this.options.labels.decreaseTextSpacing
+                                }
+                            ]
+                        },
+                        {
+                            type: 'li',
+                            attrs: {
+                                'data-access-action': 'dyslexicFont',
+                                'title': this.options.labels.dyslexicFont,
+                            },
+                            children: [
+                                {
+                                    type: '#text',
+                                    text: this.options.labels.dyslexicFont,
                                 }
                             ]
                         },
@@ -787,6 +847,7 @@ export class Accessibility {
         this.menuInterface.readingGuide(true);
         this.resetTextSize();
         this.resetTextSpace();
+        this.resetFont();
         // for (let i of document.querySelectorAll('._access-menu ul li.active')) {
         //     i.classList.remove('active');
         // }
@@ -825,6 +886,15 @@ export class Accessibility {
 
         this.sessionState.textSpace = 0;
         this.onChange(true);
+    }
+
+    resetFont() {
+        if(document.body.classList.contains('dyslexic-mode')) document.body.classList.remove('dyslexic-mode');
+    }
+
+    dyslexicFont() {
+        document.body.classList.toggle('dyslexic-mode');
+        document.querySelector('._access-menu [data-access-action="dyslexicFont"]').classList.toggle('active');
     }
 
     alterTextSize(isIncrease) {
@@ -1126,6 +1196,9 @@ export class Accessibility {
             },
             decreaseTextSpacing: () => {
                 this.alterTextSpace(false);
+            },
+            dyslexicFont: () => {
+                this.dyslexicFont();
             },
             invertColors: (destroy) => {
                 if (typeof this.initialValues.html.backgroundColor === 'undefined')
