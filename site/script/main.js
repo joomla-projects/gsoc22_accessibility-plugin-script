@@ -5,6 +5,14 @@ var options = {
 	icon: {
 		circular: true,
 		img: 'accessibility'
+	},
+	statement : {
+		enabled: true,
+		url: 'https://joomla.org/'
+	},
+	feedback : {
+		enabled: true,
+		url: 'https://joomla.org/'
 	}
 }
 

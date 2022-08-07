@@ -73,6 +73,14 @@ let _options = {
             ]
         }
     },
+    statement: {
+        enabled: false,
+        url: ''
+    },
+    feedback: {
+        enabled: false,
+        url: ''
+    },
     buttons: {
         font: { size: 18, units: 'px' }
     },
@@ -122,7 +130,7 @@ let _options = {
         readingGuide: true,
         underlineLinks: true,
         textToSpeech: true,
-        speechToText: true
+        speechToText: true,
     },
     session: {
         persistent: true
@@ -136,6 +144,7 @@ export class Accessibility {
         self = this;
         options = this.deleteOppositesIfDefined(options);
         this.options = common.extend(_options, options);
+        console.log(this.options);
         // Consider adding this:
         // if (options) {
         //     if (!options.textToSpeechLang && document.querySelector('html').getAttribute('lang')) {
@@ -423,8 +432,21 @@ export class Accessibility {
             color: rgba(0,0,0,.8);
             background-color: #eaeaea;
         }
-        ._access-menu ul li.not-supported {
+        ._access-menu .not-supported {
             display: none;
+        }
+        ._access-footer {
+            padding: 13px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px !important;
+            line-height: initial !important;
+            word-spacing: initial !important;
+            letter-spacing: initial !important;
+            text-align: center;
+        }
+        ._access-footer a {
+            margin: auto;
         }
         ._access-menu ul li:before {
             content: ' ';
@@ -735,6 +757,42 @@ export class Accessibility {
                             ]
                         }
                     ]
+                },
+                {
+                    type: 'div',
+                    attrs: {
+                        class: '_access-footer'
+                    },
+                    children: [
+                        {
+                        type: 'a',
+                        attrs: {
+                            'href': this.options.feedback.url,
+                            'target': '_blank',
+                            'id': 'feedback-link'
+                        },
+                        children: [
+                            {
+                                type: '#text',
+                                text: 'Accessibility Statement'
+                            }
+                        ]
+                        },
+                        {
+                        type: 'a',
+                        attrs: {
+                            'href': this.options.statement.url,
+                            'target': '_blank',
+                            'id': 'statement-link'
+                        },
+                        children: [
+                            {
+                                type: '#text',
+                                text: 'Send Feedback'
+                            }
+                        ]
+                        }
+                    ],
                 }
             ]
         });
@@ -781,6 +839,19 @@ export class Accessibility {
                     moduleLi.classList.add('not-supported');
                 }
             }
+        }
+
+        if (!this.options.statement.enabled) {
+            let link = document.getElementById('statement-link');
+            link.style.display = 'none';
+        }
+        if (!this.options.feedback.enabled) {
+            let link = document.getElementById('feedback-link');
+            link.style.display = 'none';
+        }
+        if(!this.options.statement.enabled && !this.options.feedback.enabled) {
+            let div = document.querySelector('._access-footer');
+            div.style.display = 'none';
         }
     }
 
@@ -843,7 +914,6 @@ export class Accessibility {
             factor *= -1;
         if (this.options.textPixelMode) {
             let all = document.querySelectorAll('*:not(._access)');
-
             for (let i = 0; i < all.length; i++) {
                 let fSize = getComputedStyle(all[i]).fontSize;
                 if (fSize && (fSize.indexOf('px') > -1)) {
