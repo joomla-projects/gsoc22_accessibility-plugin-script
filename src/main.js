@@ -110,7 +110,10 @@ let _options = {
         readingGuide: 'reading guide',
         underlineLinks: 'underline links',
         textToSpeech: 'text to speech',
-        speechToText: 'speech to text'
+        speechToText: 'speech to text',
+        accessibilityStatement: 'Accessibility Statement',
+        feedback: 'Send Feedback',
+
     },
     textToSpeechLang: 'en-US',
     speechToTextLang: 'en-US',
@@ -774,7 +777,7 @@ export class Accessibility {
                         children: [
                             {
                                 type: '#text',
-                                text: 'Accessibility Statement'
+                                text: this.options.labels.accessibilityStatement
                             }
                         ]
                         },
@@ -788,7 +791,7 @@ export class Accessibility {
                         children: [
                             {
                                 type: '#text',
-                                text: 'Send Feedback'
+                                text: this.options.labels.feedback
                             }
                         ]
                         }
