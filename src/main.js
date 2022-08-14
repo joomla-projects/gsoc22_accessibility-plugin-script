@@ -102,7 +102,8 @@ let _options = {
         readingGuide: 'reading guide',
         underlineLinks: 'underline links',
         textToSpeech: 'text to speech',
-        speechToText: 'speech to text'
+        speechToText: 'speech to text',
+        pauseAnimations: 'pause animations'
     },
     textToSpeechLang: 'en-US',
     speechToTextLang: 'en-US',
@@ -713,6 +714,18 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
+                                'data-access-action': 'pauseAnimations',
+                            },
+                            children: [
+                                {
+                                    type: '#text',
+                                    text: this.options.labels.pauseAnimations
+                                }
+                            ]
+                        },
+                        {
+                            type: 'li',
+                            attrs: {
                                 'data-access-action': 'textToSpeech'
                             },
                             children: [
@@ -793,6 +806,7 @@ export class Accessibility {
         this.menuInterface.invertColors(true);
         this.menuInterface.bigCursor(true);
         this.menuInterface.readingGuide(true);
+        this.menuInterface.pauseAnimations(true);
         this.resetTextSize();
         this.resetTextSpace();
         // for (let i of document.querySelectorAll('._access-menu ul li.active')) {
@@ -1007,6 +1021,37 @@ export class Accessibility {
         this.isReading = true;
     }
 
+    createScreenShot(url) {
+        return new Promise((resolve,reject) => {
+            let canvas = document.createElement('canvas');
+            let img = new Image();
+            canvas.style.position = 'fixed';
+            canvas.style.top = 0;
+            canvas.style.left = 0;
+            canvas.style.opacity = 0;
+            canvas.style.transform = 'scale(0.05)';
+            img.crossOrigin = 'anonymous';
+            img.onload = async () => {
+                document.body.appendChild(canvas);
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+                let res;
+                try {
+                    res = canvas.toDataURL('image/png');
+                } catch (e) {}
+                resolve(res);
+                canvas.remove();
+            };
+            img.onerror = () => {
+                resolve(common.DEFAULT_PIXEL);
+            };
+            img.src = url;
+        });
+    }
+        
     listen() {
         // let className = '_access-speech-to-text';
         // window.event.preventDefault();
@@ -1076,6 +1121,7 @@ export class Accessibility {
             textToSpeech: false,
             bigCursor: false,
             readingGuide: false,
+            pauseAnimations: false,
             body: {},
             html: {}
         };
@@ -1143,6 +1189,76 @@ export class Accessibility {
             },
             decreaseTextSpacing: () => {
                 this.alterTextSpace(false);
+            },
+            pauseAnimations: (destroy) => {
+                const className = '_access-disable-animations', autoplayStopped = 'data-autoplay-stopped', state = 'state';
+                let remove = () => {
+                    document.querySelector('._access-menu [data-access-action="pauseAnimations"]').classList.remove('active');
+                    this.initialValues.disableAnimations = false;
+                    let style = document.querySelector('.' + className);
+                    if (style) {
+                        style.parentElement.removeChild(style);
+                        common.deployedObjects.remove('.' + className);
+                    }
+                    let allImages = document.querySelectorAll('[data-org-src]');
+                    allImages.forEach(async i => {
+                        const screenshot = i.src;
+                        if(i.getAttribute(state) === 'paused') {
+                            i.setAttribute('src', i.getAttribute('data-org-src'));
+                            i.setAttribute('data-org-src', screenshot);
+                            i.setAttribute(state,'playing');
+                        }
+                    });
+
+                    
+                    const allVideos = document.querySelectorAll(`video[${autoplayStopped}]`);
+                    allVideos.forEach(v => {
+                        v.setAttribute('autoplay', '');
+                        v.removeAttribute(autoplayStopped);
+                        v.play();
+                    });
+                };
+
+                if (destroy) {
+                    remove();
+                    return;
+                }
+                this.initialValues.disableAnimations = !this.initialValues.disableAnimations;
+                if (!this.initialValues.disableAnimations) {
+                    remove();
+                    return;
+                }
+                document.querySelector('._access-menu [data-access-action="pauseAnimations"]').classList.add('active');
+                let css = `
+                body * {
+                    animation-duration: 0.0ms !important;
+                    transition-duration: 0.0ms !important;
+                }`;
+                common.injectStyle(css, { className: className });
+                common.deployedObjects.set('.' + className, true);
+                const allImages = document.querySelectorAll('img');
+                allImages.forEach(async i => {
+                    let ext = i.src.split('.');
+                    ext = ext[ext.length - 1].toLowerCase();
+                    ext = ext.substring(0, 4);
+                    if(ext === 'gif') {
+                        let screenshot = i.getAttribute('data-org-src');
+                        if(!screenshot) {
+                            screenshot = await this.createScreenShot(i.src);
+                        }
+                        i.setAttribute('data-org-src', i.src);
+                        i.setAttribute(state, 'paused');
+                        i.src = screenshot;
+                    }
+                });
+                const allVideos = document.querySelectorAll('video[autoplay]');
+                if(allVideos) {
+                    allVideos.forEach(v => {
+                        v.removeAttribute('autoplay');
+                        v.pause();
+                        v.setAttribute(autoplayStopped, '');
+                    });
+                }
             },
             invertColors: (destroy) => {
                 if (typeof this.initialValues.html.backgroundColor === 'undefined')
