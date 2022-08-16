@@ -1214,6 +1214,8 @@ export class Accessibility {
                     const allVideos = document.querySelectorAll(`video[${autoplayStopped}]`);
                     allVideos.forEach(v => {
                         v.setAttribute('autoplay', '');
+                        v.removeAttribute("muted");
+                        v.removeAttribute("controls");
                         v.removeAttribute(autoplayStopped);
                         v.play();
                     });
@@ -1255,6 +1257,8 @@ export class Accessibility {
                 if(allVideos) {
                     allVideos.forEach(v => {
                         v.removeAttribute('autoplay');
+                        v.setAttribute("controls","controls");
+                        v.setAttribute("muted","muted");
                         v.pause();
                         v.setAttribute(autoplayStopped, '');
                     });
