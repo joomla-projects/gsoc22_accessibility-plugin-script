@@ -154,7 +154,6 @@ export class Accessibility {
             underlineLinks: false,
             bigCursor: false,
             readingGuide: false,
-            position: 'right',
         };
         if (this.options.icon.useEmojis) {
             this.fontFallback();
@@ -758,32 +757,6 @@ export class Accessibility {
                                     text: this.options.labels.speechToText
                                 }
                             ]
-                        },
-                        {
-                            type: 'li',
-                            attrs: {
-                                'data-access-action': 'leftPosition',
-                                'class' : 'position',
-                            },
-                            children: [
-                                {
-                                    type: '#text',
-                                    text: "Left Position"
-                                }
-                            ]
-                        },
-                        {
-                            type: 'li',
-                            attrs: {
-                                'data-access-action': 'rightPosition',
-                                'class' : 'position',
-                            },
-                            children: [
-                                {
-                                    type: '#text',
-                                    text: "Right Position"
-                                }
-                            ]
                         }
                     ]
                 },
@@ -982,35 +955,7 @@ export class Accessibility {
             }
         }
     }
-
-    alterPosition(shiftLeft) {
-        if(shiftLeft && this.options.icon.position.right) {
-            delete this.options.icon.position.right;
-            this.options.icon.position.left = {
-                size: 10, 
-                units: 'px' ,
-            }
-            this.build();
-            this.destroy();
-            
-            document.querySelector('._access-menu [data-access-action="leftPosition"]').classList.toggle('active');
-            // this.sessionState.position = 'right';
-        } else { 
-            if(this.options.icon.position.left && !shiftLeft) {
-                delete this.options.icon.position.left;
-                this.options.icon.position.right = {
-                    size: 10, 
-                    units: 'px' ,
-                }
-                this.build();
-                this.destroy();
-                
-                document.querySelector('._access-menu [data-access-action="rightPosition"]').classList.toggle('active');
-            }
-        }
-        console.log(this.options.textSize);
-        this.onChange(true);
-    }
+        
     alterTextSpace(isIncrease) {
         this.sessionState.textSpace += isIncrease ? 1 : -1;
         this.onChange(true);
@@ -1278,13 +1223,7 @@ export class Accessibility {
             decreaseLineHeight: () => {
                 this.alterLineHeight(false);
             },
-            leftPosition: () => {
-                this.alterPosition(true);
-            },
-            rightPosition: () => {
-                this.alterPosition(false);
-            },
-
+            
             invertColors: (destroy) => {
                 if (typeof this.initialValues.html.backgroundColor === 'undefined')
                     this.initialValues.html.backgroundColor = getComputedStyle(this.html).backgroundColor;
@@ -1612,11 +1551,7 @@ export class Accessibility {
                     }
                 }
             }
-            // if(this.sessionState.position == 'left'){
-            //     this.alterPosition(false);
-            // } else {
-            //     this.alterPosition(true);
-            // }
+
             if (sessionState.invertColors)
                 this.menuInterface.invertColors();
             if (sessionState.grayHues)
