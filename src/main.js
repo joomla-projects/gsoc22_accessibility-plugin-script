@@ -103,7 +103,7 @@ let _options = {
         underlineLinks: 'underline links',
         textToSpeech: 'text to speech',
         speechToText: 'speech to text',
-        dyslexicFont: 'Dyslexic font',
+        dyslexicFont: 'Dyslexic Font',
     },
     textToSpeechLang: 'en-US',
     speechToTextLang: 'en-US',
