@@ -1122,7 +1122,6 @@ export class Accessibility {
         try {
             e = window.event || e || arguments[0];
             if (e && e.preventDefault) {
-                e.preventDefault();
                 e.stopPropagation();
             }
         }
