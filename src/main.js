@@ -1468,6 +1468,7 @@ export class Accessibility {
                     step2[0].style.background="#ffffff";
                     step3[0].style.background="#ffffff";
                     this.initialValues.textToSpeech = false;
+                    window.speechSynthesis.cancel();
                     return remove();
                 }
                 
