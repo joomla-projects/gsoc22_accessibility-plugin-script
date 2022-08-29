@@ -490,13 +490,13 @@ export class Accessibility {
         }
         @font-face {
             font-family: 'opendyslexic';
-            src: url('./node_modules/accessibility/fonts/opendyslexic/OpenDyslexic-Regular.otf');
+            src: url('../node_modules/accessibility/fonts/opendyslexic/OpenDyslexic-Regular.otf');
             font-style: normal;
             font-weight: normal;
         }
         @font-face {
             font-family: 'opendyslexicmono';
-            src: url('./node_modules/accessibility/fonts/opendyslexic/OpenDyslexicMono-Regular.otf');
+            src: url('../node_modules/accessibility/fonts/opendyslexic/OpenDyslexicMono-Regular.otf');
             font-style: normal;
             font-weight: normal;
         }
