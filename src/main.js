@@ -501,7 +501,7 @@ export class Accessibility {
             font-weight: normal;
         }
         .dyslexic-mode {
-            font-family: 'opendyslexic';
+            font-family: opendyslexic, FontAwesome, "Font Awesome 5 Free", "Glyphicons Halflings", sans-serif;
         }
         .dyslexic-mode input, .dyslexic-mode textarea {
             font-family: opendyslexic !important;
