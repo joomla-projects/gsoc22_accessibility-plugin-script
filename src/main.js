@@ -173,6 +173,14 @@ export class Accessibility {
                 }
             });
         }
+        if (this.options.modules.speechToText) {
+            window.addEventListener('beforeunload', () => {
+                if (this.isReading) {
+                    window.speechSynthesis.cancel();
+                    this.isReading = false;
+                }
+            });
+        }
     }
 
     initFontSize() {
@@ -1105,6 +1113,7 @@ export class Accessibility {
             // msg = new window.SpeechSynthesisUtterance(activeElement);
         }
         window.speechSynthesis.speak(msg);
+        this.isReading = true;
     }
 
     listen() {
