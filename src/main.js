@@ -500,8 +500,12 @@ export class Accessibility {
             font-style: normal;
             font-weight: normal;
         }
+        :root {
+            --opendyslexic-chrome-sans: opendyslexic, Elusive-Icons, FontAwesome, "Font Awesome 5 Free", "Glyphicons Halflings", sans-serif;
+            --opendyslexic-chrome-mono: opendyslexicmono, Elusive-Icons, FontAwesome, "Font Awesome 5 Free", "Glyphicons Halflings", monospace;
+        }
         .dyslexic-mode {
-            font-family: opendyslexic, FontAwesome, "Font Awesome 5 Free", "Glyphicons Halflings", sans-serif;
+            font-family: var(--opendyslexic-chrome-sans);
         }
         .dyslexic-mode input, .dyslexic-mode textarea {
             font-family: opendyslexic !important;
@@ -519,19 +523,20 @@ export class Accessibility {
         .dyslexic-mode strong,
         .dyslexic-mode th,
         .dyslexic-mode td {
-        font-family: opendyslexic !important;
-        line-height: 150%;
+            font-family: var(--opendyslexic-chrome-sans) !important;
+            line-height: 150%;
         }
         .dyslexic-mode p:nth-child(even),
         .dyslexic-mode li:nth-child(even) {
-            opacity: rgba(0, 0, 0, 0.03);
+            font-family: var(--opendyslexic-chrome-mono) !important;
+            line-height: 150%;
         }
         .dyslexic-mode pre,
         .dyslexic-mode code,
         .dyslexic-mode pre *,
         .dyslexic-mode code * {
-        font-family: opendyslexicmono !important;
-        line-height: 150%;
+            font-family: var(--opendyslexic-chrome-mono) !important;
+            line-height: 150%;
         }
         `;
         let className = '_access-main-css';
