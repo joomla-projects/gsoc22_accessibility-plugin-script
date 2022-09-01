@@ -174,6 +174,14 @@ export class Accessibility {
                 }
             });
         }
+        if (this.options.modules.speechToText) {
+            window.addEventListener('beforeunload', () => {
+                if (this.isReading) {
+                    window.speechSynthesis.cancel();
+                    this.isReading = false;
+                }
+            });
+        }
     }
 
     initFontSize() {
@@ -1050,6 +1058,9 @@ export class Accessibility {
         if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) return;
         let msg = new window.SpeechSynthesisUtterance(text);
         msg.lang = this.options.textToSpeechLang;
+        msg.onend = (e) => {
+            this.isReading = false;
+        };
         let voices = window.speechSynthesis.getVoices();
         let isLngSupported = false;
         for (let i = 0; i < voices.length; i++) {
@@ -1068,6 +1079,7 @@ export class Accessibility {
             //     console.log(msg);
         }
         window.speechSynthesis.speak(msg);
+        this.isReading = true;
     }
 
     listen() {
@@ -1090,7 +1102,12 @@ export class Accessibility {
             }
         }
         catch (ex) { }
-        self.textToSpeech(window.event.target.innerText);
+        if (self.isReading) {
+            window.speechSynthesis.cancel();
+            self.isReading = false;
+        }
+        else
+            self.textToSpeech(window.event.target.innerText);
     }
     runHotkey(name) {
         switch (name) {
