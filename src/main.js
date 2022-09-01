@@ -763,7 +763,9 @@ export class Accessibility {
         });
 
         //only append statement link and feedback link if they are passed from the backend
+        console.log(`feedback : ${this.options.feedback.url}, statement: ${this.options.statement.url}`)
         if(this.options.feedback.url != '' || this.options.statement.url != '') {   
+            
             let linksDiv = common.jsonToHtml(
                 {
                     type: 'div',
