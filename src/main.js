@@ -74,11 +74,9 @@ let _options = {
         }
     },
     statement: {
-        enabled: false,
         url: ''
     },
     feedback: {
-        enabled: false,
         url: ''
     },
     buttons: {
@@ -760,14 +758,22 @@ export class Accessibility {
                             ]
                         }
                     ]
-                },
+                },           
+            ]
+        });
+
+        //only append statement link and feedback link if they are passed from the backend
+        if(this.options.feedback.url != '' || this.options.statement.url != '') {   
+            let linksDiv = common.jsonToHtml(
                 {
                     type: 'div',
                     attrs: {
                         class: '_access-footer'
-                    },
-                    children: [
-                        {
+                    }
+                }
+            )
+            if(this.options.feedback.url != '') {
+                let feedbackLink = common.jsonToHtml({
                         type: 'a',
                         attrs: {
                             'href': this.options.feedback.url,
@@ -777,11 +783,14 @@ export class Accessibility {
                         children: [
                             {
                                 type: '#text',
-                                text: this.options.labels.accessibilityStatement
+                                text: this.options.labels.feedback
                             }
                         ]
-                        },
-                        {
+                })
+                linksDiv.appendChild(feedbackLink);
+            }
+            if(this.options.statement.url != '') {
+                let statementLink = common.jsonToHtml({
                         type: 'a',
                         attrs: {
                             'href': this.options.statement.url,
@@ -791,15 +800,15 @@ export class Accessibility {
                         children: [
                             {
                                 type: '#text',
-                                text: this.options.labels.feedback
+                                text: this.options.labels.accessibilityStatement
                             }
                         ]
-                        }
-                    ],
-                }
-            ]
-        });
-
+                })
+                linksDiv.appendChild(statementLink);
+            }
+            menuElem.appendChild(linksDiv);
+        }
+       
         for (let i in this.options.icon.position) {
             menuElem.classList.add(i);
         }
@@ -842,19 +851,6 @@ export class Accessibility {
                     moduleLi.classList.add('not-supported');
                 }
             }
-        }
-
-        if (!this.options.statement.enabled) {
-            let link = document.getElementById('statement-link');
-            link.style.display = 'none';
-        }
-        if (!this.options.feedback.enabled) {
-            let link = document.getElementById('feedback-link');
-            link.style.display = 'none';
-        }
-        if(!this.options.statement.enabled && !this.options.feedback.enabled) {
-            let div = document.querySelector('._access-footer');
-            div.style.display = 'none';
         }
     }
 

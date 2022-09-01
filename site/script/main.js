@@ -7,12 +7,10 @@ var options = {
 		img: 'accessibility'
 	},
 	statement : {
-		enabled: true,
-		url: 'https://joomla.org/'
+		url: ''
 	},
 	feedback : {
-		enabled: true,
-		url: 'https://joomla.org/'
+		url: ''
 	}
 }
 
