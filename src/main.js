@@ -88,6 +88,10 @@ let _options = {
         },
         fontFamily: 'RobotoDraft, Roboto, sans-serif, Arial'
     },
+    language : {
+        textToSpeechLang: 'en-US',
+		speechToTextLang: 'en-US',
+    },
     labels: {
         resetTitle: 'Reset',
         closeTitle: 'Close',
@@ -104,8 +108,6 @@ let _options = {
         textToSpeech: 'text to speech',
         speechToText: 'speech to text'
     },
-    textToSpeechLang: 'en-US',
-    speechToTextLang: 'en-US',
     textPixelMode: false,
     textEmlMode: true,
     animations: {
@@ -974,7 +976,7 @@ export class Accessibility {
                     }
                 }
             };
-            this.recognition.lang = this.options.speechToTextLang;
+            this.recognition.lang = this.options.language.speechToTextLang;
             this.recognition.start();
         }
     }
@@ -982,7 +984,7 @@ export class Accessibility {
     textToSpeech(text) {
         if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) return;
         let msg = new window.SpeechSynthesisUtterance(text);
-        msg.lang = this.options.textToSpeechLang;
+        msg.lang = this.options.language.textToSpeechLang;
         let voices = window.speechSynthesis.getVoices();
         let isLngSupported = false;
         for (let i = 0; i < voices.length; i++) {
