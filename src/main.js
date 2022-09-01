@@ -505,7 +505,7 @@ export class Accessibility {
         let fontSize = this.options.icon.dimensions.width.size * 0.8;
         let lineHeight = this.options.icon.dimensions.width.size * 0.9;
         let textIndent = this.options.icon.dimensions.width.size * 0.1;
-        let iStyle = `width: ${this.options.icon.dimensions.width.size + 5 + this.options.icon.dimensions.width.units}
+        let iStyle = `width: ${this.options.icon.dimensions.width.size + this.options.icon.dimensions.width.units}
             ;height: ${this.options.icon.dimensions.height.size + this.options.icon.dimensions.height.units}
             ;font-size: ${fontSize + this.options.icon.dimensions.width.units}
             ;line-height: ${lineHeight + this.options.icon.dimensions.width.units}
@@ -517,7 +517,7 @@ export class Accessibility {
         iStyle += `;z-index: ${this.options.icon.zIndex}`;
         let className = `_access-icon ${this.options.icon.fontClass} _access` + (this.options.icon.circular ? ' circular' : '');
         let iconElem = common.jsonToHtml({
-            type: 'button',
+            type: 'div',
             attrs: {
                 'class': className,
                 'style': iStyle,
