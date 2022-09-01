@@ -145,7 +145,6 @@ export class Accessibility {
         self = this;
         options = this.deleteOppositesIfDefined(options);
         this.options = common.extend(_options, options);
-        console.log(this.options);
         // Consider adding this:
         // if (options) {
         //     if (!options.textToSpeechLang && document.querySelector('html').getAttribute('lang')) {
@@ -433,7 +432,7 @@ export class Accessibility {
             color: rgba(0,0,0,.8);
             background-color: #eaeaea;
         }
-        ._access-menu .not-supported {
+        ._access-menu ul li .not-supported {
             display: none;
         }
         ._access-footer {
@@ -763,7 +762,6 @@ export class Accessibility {
         });
 
         //only append statement link and feedback link if they are passed from the backend
-        console.log(`feedback : ${this.options.feedback.url}, statement: ${this.options.statement.url}`)
         if(this.options.feedback.url != '' || this.options.statement.url != '') {   
             
             let linksDiv = common.jsonToHtml(
