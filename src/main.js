@@ -73,6 +73,12 @@ let _options = {
             ]
         }
     },
+    statement: {
+        url: ''
+    },
+    feedback: {
+        url: ''
+    },
     buttons: {
         font: { size: 18, units: 'px' }
     },
@@ -102,7 +108,10 @@ let _options = {
         readingGuide: 'reading guide',
         underlineLinks: 'underline links',
         textToSpeech: 'text to speech',
-        speechToText: 'speech to text'
+        speechToText: 'speech to text',
+        accessibilityStatement: 'Accessibility Statement',
+        feedback: 'Send Feedback',
+
     },
     textToSpeechLang: 'en-US',
     speechToTextLang: 'en-US',
@@ -122,7 +131,7 @@ let _options = {
         readingGuide: true,
         underlineLinks: true,
         textToSpeech: true,
-        speechToText: true
+        speechToText: true,
     },
     session: {
         persistent: true
@@ -423,8 +432,21 @@ export class Accessibility {
             color: rgba(0,0,0,.8);
             background-color: #eaeaea;
         }
-        ._access-menu ul li.not-supported {
+        ._access-menu ul li .not-supported {
             display: none;
+        }
+        ._access-footer {
+            padding: 13px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px !important;
+            line-height: initial !important;
+            word-spacing: initial !important;
+            letter-spacing: initial !important;
+            text-align: center;
+        }
+        ._access-footer a {
+            margin: auto;
         }
         ._access-menu ul li:before {
             content: ' ';
@@ -735,10 +757,58 @@ export class Accessibility {
                             ]
                         }
                     ]
-                }
+                },           
             ]
         });
 
+        //only append statement link and feedback link if they are passed from the backend
+        if(this.options.feedback.url != '' || this.options.statement.url != '') {   
+            
+            let linksDiv = common.jsonToHtml(
+                {
+                    type: 'div',
+                    attrs: {
+                        class: '_access-footer'
+                    }
+                }
+            )
+            if(this.options.feedback.url != '') {
+                let feedbackLink = common.jsonToHtml({
+                        type: 'a',
+                        attrs: {
+                            'href': this.options.feedback.url,
+                            'target': '_blank',
+                            'id': 'feedback-link'
+                        },
+                        children: [
+                            {
+                                type: '#text',
+                                text: this.options.labels.feedback
+                            }
+                        ]
+                })
+                linksDiv.appendChild(feedbackLink);
+            }
+            if(this.options.statement.url != '') {
+                let statementLink = common.jsonToHtml({
+                        type: 'a',
+                        attrs: {
+                            'href': this.options.statement.url,
+                            'target': '_blank',
+                            'id': 'statement-link'
+                        },
+                        children: [
+                            {
+                                type: '#text',
+                                text: this.options.labels.accessibilityStatement
+                            }
+                        ]
+                })
+                linksDiv.appendChild(statementLink);
+            }
+            menuElem.appendChild(linksDiv);
+        }
+       
         for (let i in this.options.icon.position) {
             menuElem.classList.add(i);
         }
@@ -843,7 +913,6 @@ export class Accessibility {
             factor *= -1;
         if (this.options.textPixelMode) {
             let all = document.querySelectorAll('*:not(._access)');
-
             for (let i = 0; i < all.length; i++) {
                 let fSize = getComputedStyle(all[i]).fontSize;
                 if (fSize && (fSize.indexOf('px') > -1)) {

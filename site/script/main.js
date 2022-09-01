@@ -5,6 +5,12 @@ var options = {
 	icon: {
 		circular: true,
 		img: 'accessibility'
+	},
+	statement : {
+		url: ''
+	},
+	feedback : {
+		url: ''
 	}
 }
 
