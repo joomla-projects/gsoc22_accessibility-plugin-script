@@ -517,7 +517,7 @@ export class Accessibility {
         iStyle += `;z-index: ${this.options.icon.zIndex}`;
         let className = `_access-icon ${this.options.icon.fontClass} _access` + (this.options.icon.circular ? ' circular' : '');
         let iconElem = common.jsonToHtml({
-            type: 'div',
+            type: 'h3',
             attrs: {
                 'class': className,
                 'style': iStyle,
