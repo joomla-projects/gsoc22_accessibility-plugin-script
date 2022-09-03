@@ -348,6 +348,7 @@ export class Accessibility {
         }
         ._access-menu ._text-center {
             font-size: 24px !important;
+            font-weight: bold;
             margin-top: 20px;
             margin-bottom: 20px;
             padding: 0;
