@@ -756,7 +756,6 @@ export class Accessibility {
     }
     
     async injectTts() {
-        console.log("tts called");
         let voices = await this.getVoices();
         let isLngSupported = false;
         for (let i = 0; i < voices.length; i++) {
@@ -765,10 +764,8 @@ export class Accessibility {
                 break;
             }
         }
-        console.log(`language supported : ${isLngSupported}`);
         
         if(isLngSupported) {
-            console.log("language supported");
             let tts = common.jsonToHtml(
                 {
                     type: 'li',
@@ -1021,11 +1018,9 @@ export class Accessibility {
     }
 
     textToSpeech(text) {
-        console.log("inside text to to speech")
         if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) return;
         let msg = new window.SpeechSynthesisUtterance(text);
         msg.lang = this.options.language.textToSpeechLang;
-        console.log(this.options.language.textToSpeechLang);
         window.speechSynthesis.speak(msg);
     }
 
@@ -1041,7 +1036,6 @@ export class Accessibility {
     }
 
     read(e) {
-        console.log("inside read");
         try {
             e = window.event || e || arguments[0];
             if (e && e.preventDefault) {
