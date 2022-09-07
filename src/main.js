@@ -89,7 +89,7 @@ let _options = {
         fontFamily: 'RobotoDraft, Roboto, sans-serif, Arial'
     },
     language : {
-        textToSpeechLang: 'en-US',
+        textToSpeechLang: 'el-US',
 		speechToTextLang: 'en-US',
     },
     labels: {
@@ -711,30 +711,6 @@ export class Accessibility {
                                     text: this.options.labels.readingGuide
                                 }
                             ]
-                        },
-                        {
-                            type: 'li',
-                            attrs: {
-                                'data-access-action': 'textToSpeech'
-                            },
-                            children: [
-                                {
-                                    type: '#text',
-                                    text: this.options.labels.textToSpeech
-                                }
-                            ]
-                        },
-                        {
-                            type: 'li',
-                            attrs: {
-                                'data-access-action': 'speechToText'
-                            },
-                            children: [
-                                {
-                                    type: '#text',
-                                    text: this.options.labels.speechToText
-                                }
-                            ]
                         }
                     ]
                 }
@@ -762,6 +738,65 @@ export class Accessibility {
         resetBtn.addEventListener('click', () => { this.resetAll(); }, false);
 
         return menuElem;
+    }
+
+
+    getVoices() {
+        return new Promise((resolve => {
+            let synth = window.speechSynthesis;
+            let id;
+
+            id = setInterval(() => {
+                if (synth.getVoices().length !== 0) {
+                    resolve(synth.getVoices());
+                    clearInterval(id);
+                }
+            }, 10);
+        }))
+    }
+    
+    async injectTts() {
+        let voices = await this.getVoices();
+        let isLngSupported = false;
+        for (let i = 0; i < voices.length; i++) {
+            if (voices[i].lang === this.options.language.textToSpeechLang) {
+                isLngSupported = true;
+                break;
+            }
+        }
+        if(isLngSupported) {
+            let tts = common.jsonToHtml(
+                {
+                    type: 'li',
+                    attrs: {
+                        'data-access-action': 'textToSpeech'
+                    },
+                    children: [
+                        {
+                            type: '#text',
+                            text: this.options.labels.textToSpeech
+                        }
+                    ]
+                }
+            );
+        let sts = common.jsonToHtml(
+            {
+                type: 'li',
+                attrs: {
+                    'data-access-action': 'speechToText'
+                },
+                children: [
+                    {
+                        type: '#text',
+                        text: this.options.labels.speechToText
+                    }
+                ]
+            }
+        );
+        let ul = document.querySelector('._access-menu ul');
+        ul.appendChild(tts);
+        ul.appendChild(sts);
+        }
     }
 
     addListeners() {
@@ -1079,8 +1114,11 @@ export class Accessibility {
         this.injectCss();
         this.icon = this.injectIcon();
         this.menu = this.injectMenu();
-        this.addListeners();
-        this.disableUnsupportedModules();
+        this.injectTts();
+        setTimeout(()=>{
+            this.addListeners();
+            this.disableUnsupportedModules();
+        },10)
         if (this.options.hotkeys.enabled) {
             document.onkeydown = function (e) {
                 let act = Object.entries(self.options.hotkeys.keys).find(function (val) {
