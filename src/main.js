@@ -89,8 +89,8 @@ let _options = {
         fontFamily: 'RobotoDraft, Roboto, sans-serif, Arial'
     },
     language : {
-        textToSpeechLang: 'el-US',
-		speechToTextLang: 'en-US',
+        textToSpeechLang: '',
+		speechToTextLang: '',
     },
     labels: {
         resetTitle: 'Reset',
@@ -764,7 +764,9 @@ export class Accessibility {
                 break;
             }
         }
+        
         if(isLngSupported) {
+            console.log("language supported");
             let tts = common.jsonToHtml(
                 {
                     type: 'li',
@@ -1020,6 +1022,7 @@ export class Accessibility {
         if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) return;
         let msg = new window.SpeechSynthesisUtterance(text);
         msg.lang = this.options.language.textToSpeechLang;
+        console.log(this.options.language.textToSpeechLang);
         let voices = window.speechSynthesis.getVoices();
         let isLngSupported = false;
         for (let i = 0; i < voices.length; i++) {
