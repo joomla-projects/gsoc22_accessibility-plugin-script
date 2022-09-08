@@ -495,6 +495,9 @@ export class Accessibility {
         }
         ._access-menu ul li[data-access-action="speechToText"]:before {
             content: ${!this.options.icon.useEmojis ? '"mic"' : '"🎤"'};
+        }
+        ._access-menu ul li[data-access-action="pauseAnimations"]:before {
+            content: ${!this.options.icon.useEmojis ? '"pause"' : '"⏯️"'};
         }`;
         let className = '_access-main-css';
         common.injectStyle(css, { className: className });
