@@ -502,6 +502,12 @@ export class Accessibility {
         }
         ._access-menu ul li[data-access-action="speechToText"]:before {
             content: ${!this.options.icon.useEmojis ? '"mic"' : '"🎤"'};
+        }
+        ._access-menu ul li[data-access-action="increaseLineHeight"]:before {
+            content: ${!this.options.icon.useEmojis ? '"zoom_in"' : '"🔼"'};
+        }
+        ._access-menu ul li[data-access-action="decreaseLineHeight"]:before {
+            content: ${!this.options.icon.useEmojis ? '"zoom_out"' : '"🔽"'};
         }`;
         let className = '_access-main-css';
         common.injectStyle(css, { className: className });
@@ -953,7 +959,6 @@ export class Accessibility {
                 let lHeight2 = (lHeight.replace('px', '') * 1);
                 let lTextSize2 = (lTextSize.replace('px', '') * 1)
                 let inPercent = (lHeight2*100)/lTextSize2;
-                // console.log(`lheight for text size ${lTextSize} is ${lHeight} which is ${inPercent} percent}`);
                 if (lHeight && (lHeight.indexOf('px') > -1)) {
                     if (!all[i].getAttribute('data-init-line-height'))
                         all[i].setAttribute('data-init-line-height', inPercent + '%');
@@ -1527,7 +1532,6 @@ export class Accessibility {
 
     setSessionFromCache() {
         let sessionState = storage.get('_accessState');
-        console.log(sessionState);
         if (sessionState) {
             if (sessionState.textSize) {
                 let textSize = sessionState.textSize;
