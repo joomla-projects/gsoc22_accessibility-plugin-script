@@ -656,7 +656,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'increaseLineHeight'
+                                'data-access-action': 'increaseLineHeight',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -668,7 +669,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'decreaseLineHeight'
+                                'data-access-action': 'decreaseLineHeight',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -951,6 +953,7 @@ export class Accessibility {
                         lHeight = (lHeight.replace('px', '') * 1) + factor;
                         all[i].style.lineHeight = lHeight + 'px';
                     }
+                if(this.initialValues.textToSpeech) this.textToSpeech(`Line Height ${isIncrease ?'Increased' : 'Decreased'}`);
             }
             
             else if (this.options.textEmlMode) {
@@ -965,6 +968,7 @@ export class Accessibility {
                     inPercent += factor;
                     all[i].style.lineHeight = inPercent + '%';
                 }
+                if(this.initialValues.textToSpeech) this.textToSpeech(`Line height ${isIncrease ?'Increased' : 'Decreased'}`);
             }
         }
     }
