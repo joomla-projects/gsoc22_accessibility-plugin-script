@@ -25,7 +25,7 @@ let _options = {
         fontFaceSrc: ['https://fonts.googleapis.com/icon?family=Material+Icons'],
         fontFamily: common.getFixedFont('Material Icons'),
         fontClass: 'material-icons',
-        useEmojis: false
+        useEmojis: true
     },
     hotkeys: {
         enabled: false,
@@ -363,6 +363,7 @@ export class Accessibility {
             color: #d63c3c;
             transition: .3s ease;
             transform: rotate(0deg);
+            font-style: normal !important;
         }
         ._access-menu ._menu-reset-btn:hover,._access-menu ._menu-close-btn:hover {
             ${(this.options.animations.buttons ? 'transform: rotate(180deg);' : '')}
@@ -372,6 +373,7 @@ export class Accessibility {
             color: #4054b2;
             transition: .3s ease;
             transform: rotate(0deg);
+            font-style: normal !important;
         }
         ._access-menu ._menu-btn {
             position: absolute;
@@ -481,7 +483,7 @@ export class Accessibility {
             content: ${!this.options.icon.useEmojis ? '"format_color_reset"' : '"🌫️"'};
         }
         ._access-menu ul li[data-access-action="underlineLinks"]:before {
-            content: ${!this.options.icon.useEmojis ? '"format_underlined"' : '"💯"'};
+            content: ${!this.options.icon.useEmojis ? '"format_underlined"' : '"🔗"'};
         }
         ._access-menu ul li[data-access-action="bigCursor"]:before {
             /*content: 'touch_app';*/
