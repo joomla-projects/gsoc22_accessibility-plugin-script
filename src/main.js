@@ -25,7 +25,7 @@ let _options = {
         fontFaceSrc: ['https://fonts.googleapis.com/icon?family=Material+Icons'],
         fontFamily: common.getFixedFont('Material Icons'),
         fontClass: 'material-icons',
-        useEmojis: true
+        useEmojis: false
     },
     hotkeys: {
         enabled: false,
