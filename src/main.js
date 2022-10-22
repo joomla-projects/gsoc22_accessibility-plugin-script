@@ -610,7 +610,8 @@ export class Accessibility {
                 {
                     type: 'h3',
                     attrs: {
-                        'class': '_text-center'
+                        'class': '_text-center',
+                        'role': 'presentation'
                     },
                     children: [
                         {
