@@ -4,7 +4,7 @@ var options = {
 	},
 	icon: {
 		circular: true,
-		img: 'accessibility'
+		useEmojis: true
 	},
 	statement : {
 		url: ''
@@ -14,7 +14,7 @@ var options = {
 	},
 	language : {
 		textToSpeechLang: '',
-		speechToTextLang: '',
+		speechToTextLang: ''
 	}
 
 }

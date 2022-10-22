@@ -51,6 +51,23 @@ h3.ui.header {
 .i-circular {
     border-radius: 50%;
 }
+
+.spin {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border:dashed 5px red;
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+  }
+
+  @-webkit-keyframes spin {
+    from   {  -webkit-transform: rotate(0deg); }
+    to   {  -webkit-transform: rotate(360deg); }
+  }
+  
 table thead{
     font-weight: bold;
     color: rgba(0,0,0,.6);
