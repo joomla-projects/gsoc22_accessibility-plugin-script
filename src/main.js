@@ -19,7 +19,7 @@ let _options = {
         zIndex: '9999',
         backgroundColor: '#4054b2',
         color: '#fff',
-        img: 'accessible',
+        img: 'accessibility',
         circular: false,
         circularBorder: false,
         fontFaceSrc: ['https://fonts.googleapis.com/icon?family=Material+Icons'],
