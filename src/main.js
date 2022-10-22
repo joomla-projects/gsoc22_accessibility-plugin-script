@@ -354,16 +354,15 @@ export class Accessibility {
             right: -${this.options.menu.dimensions.width.size + this.options.menu.dimensions.width.units};
         }
         ._access-menu ._text-center {
-            text-align: center;
-        }
-        ._access-menu h3 {
             font-size: 24px !important;
+            font-weight: bold;
             margin-top: 20px;
             margin-bottom: 20px;
             padding: 0;
             color: rgba(0,0,0,.87);
             letter-spacing: initial!important;
             word-spacing: initial!important;
+            text-align: center;
         }
         ._access-menu ._menu-close-btn {
             left: 5px;
@@ -610,7 +609,7 @@ export class Accessibility {
             },
             children: [
                 {
-                    type: 'h3',
+                    type: 'p',
                     attrs: {
                         'class': '_text-center'
                     },
