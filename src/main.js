@@ -826,36 +826,36 @@ export class Accessibility {
                                     type: "#text",
                                     text: this.options.labels.screenReader
                                 },
-                                    {
-                                        type: 'div',
-                                        attrs: {
-                                            'class': 'screen-reader-wrapper',
-                                        },
-                                        children: [
-                                            {
-                                                type: 'div',
-                                                attrs: {
-                                                    'class': 'screen-reader-wrapper-step-1',
-                                                    'tabIndex': '-1'
-                                                },
-                                            },
-                                            {
-                                                type: 'div',
-                                                attrs: {
-                                                    'class': 'screen-reader-wrapper-step-2',
-                                                    'tabIndex': '-1'
-                                                },
-                                            },
-                                            {
-                                                type: 'div',
-                                                attrs: {
-                                                    'class': 'screen-reader-wrapper-step-3',
-                                                    'tabIndex': '-1'
-                                                },
-                                            },
-    
-                                        ]
+                                {
+                                    type: 'div',
+                                    attrs: {
+                                        'class': 'screen-reader-wrapper',
                                     },
+                                    children: [
+                                        {
+                                            type: 'div',
+                                            attrs: {
+                                                'class': 'screen-reader-wrapper-step-1',
+                                                'tabIndex': '-1'
+                                            },
+                                        },
+                                        {
+                                            type: 'div',
+                                            attrs: {
+                                                'class': 'screen-reader-wrapper-step-2',
+                                                'tabIndex': '-1'
+                                            },
+                                        },
+                                        {
+                                            type: 'div',
+                                            attrs: {
+                                                'class': 'screen-reader-wrapper-step-3',
+                                                'tabIndex': '-1'
+                                            },
+                                        },
+
+                                    ]
+                                },
                             ]
                         },
                         {
