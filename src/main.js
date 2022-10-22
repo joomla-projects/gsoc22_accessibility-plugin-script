@@ -88,6 +88,10 @@ let _options = {
         },
         fontFamily: 'RobotoDraft, Roboto, sans-serif, Arial'
     },
+    language : {
+        textToSpeechLang: '',
+		speechToTextLang: '',
+    },
     labels: {
         resetTitle: 'Reset',
         closeTitle: 'Close',
@@ -108,8 +112,6 @@ let _options = {
         speechToText: 'speech to text',
         pauseAnimations: 'pause animations'
     },
-    textToSpeechLang: 'en-US',
-    speechToTextLang: 'en-US',
     textPixelMode: false,
     textEmlMode: true,
     animations: {
@@ -352,16 +354,15 @@ export class Accessibility {
             right: -${this.options.menu.dimensions.width.size + this.options.menu.dimensions.width.units};
         }
         ._access-menu ._text-center {
-            text-align: center;
-        }
-        ._access-menu h3 {
             font-size: 24px !important;
+            font-weight: bold;
             margin-top: 20px;
             margin-bottom: 20px;
             padding: 0;
             color: rgba(0,0,0,.87);
             letter-spacing: initial!important;
             word-spacing: initial!important;
+            text-align: center;
         }
         ._access-menu ._menu-close-btn {
             left: 5px;
@@ -608,7 +609,7 @@ export class Accessibility {
             },
             children: [
                 {
-                    type: 'h3',
+                    type: 'p',
                     attrs: {
                         'class': '_text-center',
                         'role': 'presentation'
@@ -912,6 +913,66 @@ export class Accessibility {
         return menuElem;
     }
 
+
+    getVoices() {
+        return new Promise((resolve => {
+            let synth = window.speechSynthesis;
+            let id;
+
+            id = setInterval(() => {
+                if (synth.getVoices().length !== 0) {
+                    resolve(synth.getVoices());
+                    clearInterval(id);
+                }
+            }, 10);
+        }))
+    }
+    
+    async injectTts() {
+        let voices = await this.getVoices();
+        let isLngSupported = false;
+        for (let i = 0; i < voices.length; i++) {
+            if (voices[i].lang === this.options.language.textToSpeechLang) {
+                isLngSupported = true;
+                break;
+            }
+        }
+        
+        if(isLngSupported) {
+            let tts = common.jsonToHtml(
+                {
+                    type: 'li',
+                    attrs: {
+                        'data-access-action': 'textToSpeech'
+                    },
+                    children: [
+                        {
+                            type: '#text',
+                            text: this.options.labels.textToSpeech
+                        }
+                    ]
+                }
+            );
+        let sts = common.jsonToHtml(
+            {
+                type: 'li',
+                attrs: {
+                    'data-access-action': 'speechToText'
+                },
+                children: [
+                    {
+                        type: '#text',
+                        text: this.options.labels.speechToText
+                    }
+                ]
+            }
+        );
+        let ul = document.querySelector('._access-menu ul');
+        ul.appendChild(tts);
+        ul.appendChild(sts);
+        }
+    }
+
     addListeners() {
         let lis = document.querySelectorAll('._access-menu ul li');
         let step1 = document.getElementsByClassName('screen-reader-wrapper-step-1'); 
@@ -1200,7 +1261,7 @@ export class Accessibility {
                     }
                 }
             };
-            this.recognition.lang = this.options.speechToTextLang;
+            this.recognition.lang = this.options.language.speechToTextLang;
             this.recognition.start();
         }
     }
@@ -1208,6 +1269,7 @@ export class Accessibility {
     textToSpeech(text) {
         if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) return;
         let msg = new window.SpeechSynthesisUtterance(text);
+        msg.lang = this.options.language.textToSpeechLang;
         msg.lang = this.options.textToSpeechLang;
         msg.rate = this.initialValues.speechRate;
         let voices = window.speechSynthesis.getVoices();
@@ -1369,8 +1431,11 @@ export class Accessibility {
         this.injectCss();
         this.icon = this.injectIcon();
         this.menu = this.injectMenu();
-        this.addListeners();
-        this.disableUnsupportedModules();
+        this.injectTts();
+        setTimeout(()=>{
+            this.addListeners();
+            this.disableUnsupportedModules();
+        },10)
         if (this.options.hotkeys.enabled) {
             document.onkeydown = function (e) {
                 let act = Object.entries(self.options.hotkeys.keys).find(function (val) {
