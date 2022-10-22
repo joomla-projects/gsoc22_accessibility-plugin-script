@@ -103,8 +103,8 @@ let _options = {
         bigCursor: 'big cursor',
         readingGuide: 'reading guide',
         underlineLinks: 'underline links',
-        textToSpeech: 'text to speech',
-        speechToText: 'speech to text'
+        screenReader: 'Screen Reader',
+        speechToText: 'speech to text',
     },
     textToSpeechLang: 'en-US',
     speechToTextLang: 'en-US',
@@ -124,7 +124,7 @@ let _options = {
         readingGuide: true,
         underlineLinks: true,
         textToSpeech: true,
-        speechToText: true
+        speechToText: true,
     },
     session: {
         persistent: true
@@ -394,6 +394,40 @@ export class Accessibility {
         html._access_cursor * {
             cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyOS4xODhweCIgaGVpZ2h0PSI0My42MjVweCIgdmlld0JveD0iMCAwIDI5LjE4OCA0My42MjUiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI5LjE4OCA0My42MjUiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iI0Q5REFEOSIgc3Ryb2tlLXdpZHRoPSIxLjE0MDYiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgcG9pbnRzPSIyLjgsNC41NDkgMjYuODQ3LDE5LjkwMiAxNi45NjQsMjIuNzAxIDI0LjIzOSwzNy43NDkgMTguMjc4LDQyLjAxNyA5Ljc0MSwzMC43MjQgMS4xMzgsMzUuODA5ICIvPjxnPjxnPjxnPjxwYXRoIGZpbGw9IiMyMTI2MjciIGQ9Ik0yOS4xNzUsMjEuMTU1YzAuMDcxLTAuNjEzLTAuMTY1LTEuMjUzLTAuNjM1LTEuNTczTDIuMTY1LDAuMjU4Yy0wLjQyNC0wLjMyLTAuOTg4LTAuMzQ2LTEuNDM1LTAuMDUzQzAuMjgyLDAuNDk3LDAsMS4wMywwLDEuNjE3djM0LjE3MWMwLDAuNjEzLDAuMzA2LDEuMTQ2LDAuNzc2LDEuNDM5YzAuNDcxLDAuMjY3LDEuMDU5LDAuMjEzLDEuNDgyLTAuMTZsNy40ODItNi4zNDRsNi44NDcsMTIuMTU1YzAuMjU5LDAuNDgsMC43MjksMC43NDYsMS4yLDAuNzQ2YzAuMjM1LDAsMC40OTQtMC4wOCwwLjcwNi0wLjIxM2w2Ljk4OC00LjU4NWMwLjMyOS0wLjIxMywwLjU2NS0wLjU4NiwwLjY1OS0xLjAxM2MwLjA5NC0wLjQyNiwwLjAyNC0wLjg4LTAuMTg4LTEuMjI2bC02LjM3Ni0xMS4zODJsOC42MTEtMi43NDVDMjguNzA1LDIyLjI3NCwyOS4xMDUsMjEuNzY4LDI5LjE3NSwyMS4xNTV6IE0xNi45NjQsMjIuNzAxYy0wLjQyNCwwLjEzMy0wLjc3NiwwLjUwNi0wLjk0MSwwLjk2Yy0wLjE2NSwwLjQ4LTAuMTE4LDEuMDEzLDAuMTE4LDEuNDM5bDYuNTg4LDExLjc4MWwtNC41NDEsMi45ODVsLTYuODk0LTEyLjMxNWMtMC4yMTItMC4zNzMtMC41NDEtMC42NC0wLjk0MS0wLjcyYy0wLjA5NC0wLjAyNy0wLjE2NS0wLjAyNy0wLjI1OS0wLjAyN2MtMC4zMDYsMC0wLjU4OCwwLjEwNy0wLjg0NywwLjMyTDIuOCwzMi41OVY0LjU0OWwyMS41OTksMTUuODA2TDE2Ljk2NCwyMi43MDF6Ii8+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==),auto!important;
         }
+        .texting {
+            height:50px;
+            text-align: center;
+            border: solid 2.4px #f1f0f1;
+            border-radius: 4px;
+            width: 100%;
+            display: inline-block;
+        }
+        .screen-reader-wrapper {
+            margin-top: 13px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .screen-reader-wrapper-step-1 {
+            float: left;
+            background: white;
+            width: 33%;
+            height: 3px;
+            border-radius: 10px;
+        }
+        .screen-reader-wrapper-step-2 {
+            float: left;
+            background: white;
+            width: 33%;
+            height: 3px;
+            border-radius: 10px;
+        }
+        .screen-reader-wrapper-step-3 {
+            float: left;
+            background: white;
+            width: 33%;
+            height: 3px;
+            border-radius: 10px;
+        }
         ._access-menu ul li {
             list-style-type: none;
             cursor: pointer;
@@ -424,6 +458,10 @@ export class Accessibility {
             opacity: 0.05;
         }
         ._access-menu ul li.active, ._access-menu ul li.active:hover {
+            color: #fff;
+            background-color: #000;
+        }
+        ._access-menu div.active {
             color: #fff;
             background-color: #000;
         }
@@ -535,7 +573,8 @@ export class Accessibility {
             attrs: {
                 'class': className,
                 'style': iStyle,
-                'title': this.options.labels.menuTitle
+                'title': this.options.labels.menuTitle,
+                'tabIndex': 0
             },
             children: [
                 {
@@ -608,7 +647,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'increaseText'
+                                'data-access-action': 'increaseText',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -620,7 +660,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'decreaseText'
+                                'data-access-action': 'decreaseText',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -632,7 +673,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'increaseTextSpacing'
+                                'data-access-action': 'increaseTextSpacing',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -644,7 +686,8 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'decreaseTextSpacing'
+                                'data-access-action': 'decreaseTextSpacing',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -683,7 +726,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'invertColors',
-                                'title': this.parseKeys(this.options.hotkeys.keys.invertColors)
+                                'title': this.parseKeys(this.options.hotkeys.keys.invertColors),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -696,7 +740,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'grayHues',
-                                'title': this.parseKeys(this.options.hotkeys.keys.grayHues)
+                                'title': this.parseKeys(this.options.hotkeys.keys.grayHues),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -709,7 +754,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'underlineLinks',
-                                'title': this.parseKeys(this.options.hotkeys.keys.underlineLinks)
+                                'title': this.parseKeys(this.options.hotkeys.keys.underlineLinks),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -722,7 +768,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'bigCursor',
-                                'title': this.parseKeys(this.options.hotkeys.keys.bigCursor)
+                                'title': this.parseKeys(this.options.hotkeys.keys.bigCursor),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -741,7 +788,8 @@ export class Accessibility {
                             type: 'li',
                             attrs: {
                                 'data-access-action': 'readingGuide',
-                                'title': this.parseKeys(this.options.hotkeys.keys.readingGuide)
+                                'title': this.parseKeys(this.options.hotkeys.keys.readingGuide),
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
@@ -753,25 +801,57 @@ export class Accessibility {
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'textToSpeech'
+                                'data-access-action': 'textToSpeech',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
-                                    type: '#text',
-                                    text: this.options.labels.textToSpeech
-                                }
+                                    type: "#text",
+                                    text: this.options.labels.screenReader
+                                },
+                                    {
+                                        type: 'div',
+                                        attrs: {
+                                            'class': 'screen-reader-wrapper',
+                                        },
+                                        children: [
+                                            {
+                                                type: 'div',
+                                                attrs: {
+                                                    'class': 'screen-reader-wrapper-step-1',
+                                                    'tabIndex': '-1'
+                                                },
+                                            },
+                                            {
+                                                type: 'div',
+                                                attrs: {
+                                                    'class': 'screen-reader-wrapper-step-2',
+                                                    'tabIndex': '-1'
+                                                },
+                                            },
+                                            {
+                                                type: 'div',
+                                                attrs: {
+                                                    'class': 'screen-reader-wrapper-step-3',
+                                                    'tabIndex': '-1'
+                                                },
+                                            },
+    
+                                        ]
+                                    },
                             ]
                         },
                         {
                             type: 'li',
                             attrs: {
-                                'data-access-action': 'speechToText'
+                                'data-access-action': 'speechToText',
+                                'tabIndex': '-1'
                             },
                             children: [
                                 {
                                     type: '#text',
-                                    text: this.options.labels.speechToText
-                                }
+                                    text: this.options.labels.speechToText,
+                                },
                             ]
                         }
                     ]
@@ -793,24 +873,46 @@ export class Accessibility {
         }, 1);
         common.deployedObjects.set('._access-menu', false);
         let closeBtn = document.querySelector('._access-menu ._menu-close-btn');
-        closeBtn.addEventListener('click', () => {
-            this.toggleMenu();
-        }, false);
+        ['click','keyup'].forEach(evt => {
+            closeBtn.addEventListener(evt, (e) => {
+                let et = e || window.event;
+                if(et.detail === 0 && et.key !== "Enter") return;
+                this.toggleMenu();
+            }, false);
+        })
         let resetBtn = document.querySelector('._access-menu ._menu-reset-btn');
-        resetBtn.addEventListener('click', () => { this.resetAll(); }, false);
+        ['click','keyup'].forEach(evt => {
+            resetBtn.addEventListener(evt, (e) => {
+                let et = e || window.event;
+                if(et.detail === 0 && et.key !== "Enter") return;
+                this.resetAll();
+            }, false);
+        })
 
         return menuElem;
     }
 
     addListeners() {
         let lis = document.querySelectorAll('._access-menu ul li');
+        let step1 = document.getElementsByClassName('screen-reader-wrapper-step-1'); 
+        let step2 = document.getElementsByClassName('screen-reader-wrapper-step-2'); 
+        let step3 = document.getElementsByClassName('screen-reader-wrapper-step-3');
 
         for (let i = 0; i < lis.length; i++) {
-            lis[i].addEventListener('click', (e) => {
+            ['click','keyup'].forEach( evt =>
+                lis[i].addEventListener(evt,(e)=>{
+                    let et = e || window.event;
+                    if(et.detail === 0 && et.key !== "Enter") return;
+                    this.invoke(et.target.getAttribute('data-access-action'));
+                })
+        )};
+        
+        [...step1, ...step2, ...step3].forEach(el => {
+            el.addEventListener('click', (e) => {
                 let evt = e || window.event
-                this.invoke(evt.target.getAttribute('data-access-action'));
+                this.invoke(evt.target.parentElement.parentElement.getAttribute('data-access-action'));
             }, false);
-        }
+        });
     }
 
     disableUnsupportedModules() {
@@ -894,7 +996,7 @@ export class Accessibility {
     alterTextSize(isIncrease) {
         this.sessionState.textSize += isIncrease ? 1 : -1;
         this.onChange(true);
-        let factor = 2;
+        let factor = 12.5;
         if (!isIncrease)
             factor *= -1;
         if (this.options.textPixelMode) {
@@ -909,12 +1011,14 @@ export class Accessibility {
                     all[i].style.fontSize = fSize + 'px';
                 }
             }
+            if(this.initialValues.textToSpeech) this.textToSpeech(`Text Size ${isIncrease ?'Increased' : 'Decreased'}`);
         }
         else if (this.options.textEmlMode) {
             let fp = this.html.style.fontSize;
             if (fp.indexOf('%')) {
                 fp = fp.replace('%', '') * 1;
                 this.html.style.fontSize = (fp + factor) + '%';
+                if(this.initialValues.textToSpeech) this.textToSpeech(`Text Size ${isIncrease ?'Increased' : 'Decreased'}`);
             }
             else {
                 common.warn('Accessibility.textEmlMode, html element is not set in %.');
@@ -976,7 +1080,7 @@ export class Accessibility {
     alterTextSpace(isIncrease) {
         this.sessionState.textSpace += isIncrease ? 1 : -1;
         this.onChange(true);
-        let factor = 1;
+        let factor = 2;
         if (!isIncrease)
             factor *= -1;
         if (this.options.textPixelMode) {
@@ -1012,6 +1116,7 @@ export class Accessibility {
                     all[i].style.letterSpacing = factor + 'px';
                 }
             }
+            if(this.initialValues.textToSpeech) this.textToSpeech(`Text Spacing ${isIncrease ?'Increased' : 'Decreased'}`);
         }
         else {
             // wordSpacing
@@ -1028,6 +1133,7 @@ export class Accessibility {
             if (fSpacing2 && fSpacing2.sufix && !isNaN(fSpacing2.size * 1)) {
                 this.body.style.letterSpacing = ((fSpacing2.size * 1) + factor) + fSpacing2.sufix;
             }
+            if(this.initialValues.textToSpeech) this.textToSpeech(`Text Spacing ${isIncrease ?'Increased' : 'Decreased'}`);
         }
     }
 
@@ -1082,9 +1188,7 @@ export class Accessibility {
         if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) return;
         let msg = new window.SpeechSynthesisUtterance(text);
         msg.lang = this.options.textToSpeechLang;
-        msg.onend = (e) => {
-            this.isReading = false;
-        };
+        msg.rate = this.initialValues.speechRate;
         let voices = window.speechSynthesis.getVoices();
         let isLngSupported = false;
         for (let i = 0; i < voices.length; i++) {
@@ -1101,6 +1205,11 @@ export class Accessibility {
             //     console.warn(msg);
             // else
             //     console.log(msg);
+        }
+        if(window.speechSynthesis.pending || window.speechSynthesis.speaking) {
+            window.speechSynthesis.pause;
+            window.speechSynthesis.cancel();
+            // msg = new window.SpeechSynthesisUtterance(activeElement);
         }
         window.speechSynthesis.speak(msg);
         this.isReading = true;
@@ -1121,17 +1230,19 @@ export class Accessibility {
         try {
             e = window.event || e || arguments[0];
             if (e && e.preventDefault) {
-                e.preventDefault();
                 e.stopPropagation();
             }
         }
         catch (ex) { }
-        if (self.isReading) {
-            window.speechSynthesis.cancel();
-            self.isReading = false;
+        let allContent = Array.prototype.slice.call(document.querySelectorAll('._access-menu *'));
+        for(const key in allContent ){
+            if(allContent[key] === window.event.target && (e instanceof MouseEvent) ) return;
         }
-        else
+        if(e instanceof KeyboardEvent && (e.shiftKey && e.key === 'Tab' || e.key === 'Tab')) {
             self.textToSpeech(window.event.target.innerText);
+            return;
+        }
+        if(e instanceof MouseEvent) self.textToSpeech(window.event.target.innerText);
     }
     runHotkey(name) {
         switch (name) {
@@ -1148,10 +1259,21 @@ export class Accessibility {
         }
     }
     toggleMenu() {
+        let childrens = this.menu.childNodes;
         if (this.menu.classList.contains('close')) {
             if (this.options.animations && this.options.animations.buttons)
                 setTimeout(() => { this.menu.querySelector('ul').classList.toggle('before-collapse'); }, 500);
             setTimeout(() => { this.menu.classList.toggle('close'); }, 10);
+            this.options.icon.tabIndex = 0;
+            childrens.forEach(child => {
+                child.hasChildNodes()?child.tabIndex=-1:child.tabIndex=0;
+                if(child.hasChildNodes()) {
+                    child.childNodes.forEach(li => {
+                        li.tabIndex = 0;
+                    })
+                }
+            })
+
         }
         else {
             if (this.options.animations && this.options.animations.buttons) {
@@ -1161,6 +1283,15 @@ export class Accessibility {
             else {
                 this.menu.classList.toggle('close');
             }
+            this.menu.tabIndex = -1;
+            childrens.forEach(child => {
+                child.hasChildNodes()?child.tabIndex=-1:child.tabIndex=0;
+                if(child.hasChildNodes()) {
+                    child.childNodes.forEach(li => {
+                        li.tabIndex = -1;
+                    })
+                }
+            })
         }
     }
 
@@ -1175,6 +1306,7 @@ export class Accessibility {
             textToSpeech: false,
             bigCursor: false,
             readingGuide: false,
+            speechRate: 1,
             body: {},
             html: {}
         };
@@ -1211,16 +1343,21 @@ export class Accessibility {
         }
         //setMinHeight();
 
-        this.icon.addEventListener('click', () => {
-            this.toggleMenu();
-        }, false);
+        ['click','keyup'].forEach(evt => {
+            this.icon.addEventListener(evt, (e) => {
+                let et = e || window.event;
+                console.log(et);
+                if(et.detail === 0 && et.key !== "Enter") {
+                    return;
+                }
+                this.toggleMenu();
+            }, false);
+        })
+
         setTimeout(() => {
             this.icon.style.opacity = '1';
         }, 10);
 
-        // if (window.SpeechSynthesisUtterance || window.speechSynthesis) {
-        //     let voices = window.speechSynthesis.getVoices();
-        // }
         this.updateReadGuide = function (e) {
             let newPos = 0;
             if (e.type == 'touchmove') {
@@ -1230,6 +1367,7 @@ export class Accessibility {
             }
             document.getElementById('access_read_guide_bar').style.top = (newPos - (parseInt(self.options.guide.height.replace('px')) + 5)) + 'px';
         }
+
         this.menuInterface = {
             increaseText: () => {
                 this.alterTextSize(true);
@@ -1267,7 +1405,9 @@ export class Accessibility {
                     return;
                 }
 
-
+                if (this.initialValues.invertColors && this.initialValues.textToSpeech) {
+                    this.textToSpeech("Colors Set To Normal");
+                }
                 document.querySelector('._access-menu [data-access-action="invertColors"]').classList.toggle('active');
                 this.initialValues.invertColors = !this.initialValues.invertColors;
                 this.sessionState.invertColors = this.initialValues.invertColors;
@@ -1276,6 +1416,10 @@ export class Accessibility {
                     if (this.initialValues.grayHues)
                         this.menuInterface.grayHues(true);
                     this.html.style.filter = 'invert(1)';
+                    
+                    if(this.initialValues.textToSpeech) {
+                        this.textToSpeech("Colors Inverted");
+                    }
                 }
                 else {
                     this.html.style.filter = '';
@@ -1307,11 +1451,16 @@ export class Accessibility {
                 this.initialValues.grayHues = !this.initialValues.grayHues;
                 this.sessionState.grayHues = this.initialValues.grayHues;
                 this.onChange(true);
+
+                if(this.initialValues.textToSpeech && !this.initialValues.grayHues) 
+                    this.textToSpeech("Gray Hues Disabled.");
                 let val;
                 if (this.initialValues.grayHues) {
                     val = 'grayscale(1)'
-                    if (this.initialValues.invertColors)
+                    if (this.initialValues.invertColors){
                         this.menuInterface.invertColors(true)
+                    }
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Gray Hues Enabled.")
                 } else {
                     val = ''
                 }
@@ -1350,8 +1499,10 @@ export class Accessibility {
                 `;
                     common.injectStyle(css, { className: className });
                     common.deployedObjects.set('.' + className, true);
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Links UnderLined");
                 }
                 else {
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Links UnderLine Removed");
                     remove();
                 }
             },
@@ -1371,6 +1522,8 @@ export class Accessibility {
                 this.sessionState.bigCursor = this.initialValues.bigCursor;
                 this.onChange(true);
                 this.html.classList.toggle('_access_cursor');
+                if(this.initialValues.textToSpeech && this.initialValues.bigCursor) this.textToSpeech("Big Cursor Enabled");
+                if(this.initialValues.textToSpeech && !this.initialValues.bigCursor) this.textToSpeech("Big Cursor Disabled");
             },
             readingGuide: (destroy) => {
                 if (destroy) {
@@ -1396,45 +1549,81 @@ export class Accessibility {
                     document.body.append(read);
                     document.body.addEventListener('touchmove', this.updateReadGuide, false);
                     document.body.addEventListener('mousemove', this.updateReadGuide, false);
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Reading Guide Enabled");
                 } else {
                     if (document.getElementById('access_read_guide_bar') != undefined) {
                         document.getElementById('access_read_guide_bar').remove();
                     }
                     document.body.removeEventListener('touchmove', this.updateReadGuide, false);
                     document.body.removeEventListener('mousemove', this.updateReadGuide, false);
+                    if(this.initialValues.textToSpeech) this.textToSpeech("Reading Guide Disabled");
                 }
             },
             textToSpeech: (destroy) => {
-                // this.sessionState.textToSpeech = typeof destroy === 'undefined' ? true : false;
-                this.onChange(false);
+                let tSpeechList = document.querySelector('._access-menu [data-access-action="textToSpeech"]');
+                let step1 = document.getElementsByClassName('screen-reader-wrapper-step-1'); 
+                let step2 = document.getElementsByClassName('screen-reader-wrapper-step-2'); 
+                let step3 = document.getElementsByClassName('screen-reader-wrapper-step-3');
                 let className = '_access-text-to-speech';
+                this.onChange(false);
+                
                 let remove = () => {
                     let style = document.querySelector('.' + className);
                     if (style) {
                         style.parentElement.removeChild(style);
                         document.removeEventListener('click', this.read, false);
+                        document.removeEventListener('keyup', this.read, false);
                         common.deployedObjects.remove('.' + className);
                     }
                 };
 
                 if (destroy) {
                     document.querySelector('._access-menu [data-access-action="textToSpeech"]').classList.remove('active');
+                    step1[0].style.background="#ffffff";
+                    step2[0].style.background="#ffffff";
+                    step3[0].style.background="#ffffff";
                     this.initialValues.textToSpeech = false;
+                    window.speechSynthesis.cancel();
                     return remove();
                 }
+                
+                if(this.initialValues.speechRate === 1 && !tSpeechList.classList.contains('active')) {
+                    this.initialValues.textToSpeech = true;
+                    this.textToSpeech("Screen Reader enabled. Reading Pace - Normal");
+                    tSpeechList.classList.add('active');
+                    step2[0].style.background="#000000";
+                    step3[0].style.background="#000000";
+                }
+                else if(this.initialValues.speechRate === 1 && tSpeechList.classList.contains('active')) {
+                    this.initialValues.speechRate = 1.5;
+                    this.textToSpeech("Reading Pace - Fast");
+                    step2[0].style.background="#ffffff";
+                }
+                else if(this.initialValues.speechRate === 1.5 && tSpeechList.classList.contains('active')) {
+                    this.initialValues.speechRate = 0.7;
+                    this.textToSpeech("Reading Pace - Slow");
+                    step3[0].style.background="#ffffff";
 
-                document.querySelector('._access-menu [data-access-action="textToSpeech"]').classList.toggle('active');
+                } 
+                else{
+                    this.initialValues.speechRate = 1;
+                    this.textToSpeech("Screen Reader - Disabled");
+                    tSpeechList.classList.remove('active');
+                    this.initialValues.textToSpeech = false;
+                }
 
-                this.initialValues.textToSpeech = !this.initialValues.textToSpeech;
                 if (this.initialValues.textToSpeech) {
                     let css = `
                         *:hover {
                             box-shadow: 2px 2px 2px rgba(180,180,180,0.7);
                         }
                     `;
+                    if(tSpeechList.classList.contains('active') && this.initialValues.speechRate === 1){
                     common.injectStyle(css, { className: className });
                     common.deployedObjects.set('.' + className, true);
                     document.addEventListener('click', this.read, false);
+                    document.addEventListener('keyup', this.read, false);
+                    }
                 }
                 else {
                     remove();
@@ -1467,7 +1656,7 @@ export class Accessibility {
                     return remove();
                 }
 
-                document.querySelector('._access-menu [data-access-action="speechToText"]').classList.toggle('active');
+                // document.querySelector('._access-menu [data-access-action="speechToText"]').classList.toggle('active');
 
                 this.initialValues.speechToText = !this.initialValues.speechToText;
                 if (this.initialValues.speechToText) {
@@ -1512,7 +1701,7 @@ export class Accessibility {
                     }
                 }
                 else {
-                    remove();
+                        remove();
                 }
             }
         }
