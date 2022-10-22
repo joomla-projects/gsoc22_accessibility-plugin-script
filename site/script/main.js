@@ -4,7 +4,8 @@ var options = {
 	},
 	icon: {
 		circular: true,
-		img: 'accessibility'
+		img: 'accessibility',
+		useEmojis: true
 	}
 }
 
