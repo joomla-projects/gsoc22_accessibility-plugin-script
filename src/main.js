@@ -1506,7 +1506,7 @@ export class Accessibility {
                         v.setAttribute(autoplayStopped, '');
                     });
                 }
-            }, 
+            },
             invertColors: (destroy) => {
                 if (typeof this.initialValues.html.backgroundColor === 'undefined')
                     this.initialValues.html.backgroundColor = getComputedStyle(this.html).backgroundColor;
