@@ -20,7 +20,7 @@ initialize component:
 
 ### Full Documentation [here](https://ranbuch.github.io/accessibility/)
 
->We are proud to announce that [Joomla!](https://www.joomdev.com/blog/entry/enable-joomla-4-accessibility) are now using this repo as there built-in accessibility tool.
+>We are proud to announce that [Joomla!](https://www.joomdev.com/blog/entry/enable-joomla-4-accessibility) is now using this repo as there built-in accessibility tool.
 
 ### DESCRIPTION:
 **Features:**
@@ -84,7 +84,7 @@ Easy to use!
 >When the default is **true**
 
 ### TEXT SIZE MANIPULATION APPROACHES:
-If text increase / decrease isn't working for your size your probablly not using responsive font size units (sutch as em, rem etc.).  
+If text increase/decrease isn't working for your size you are probably not using responsive font size units (such as em, rem etc.).  
 In that case you can initialize the accessibility tool like this:  
 `new Accessibility({textPixelMode: true})`
 
@@ -93,7 +93,7 @@ Cancel all buttons animations:
 `new Accessibility({animations: {buttons: false}})`
 
 ### POSITIONING:
-You can position the accessibility icon in any place on the screen. The default position is bottom right:  
+You can position the accessibility icon anywhere on the screen. The default position is bottom right:  
 `var options = {`  
 &nbsp;&nbsp;&nbsp;&nbsp;`icon: {`  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`position: {`  
